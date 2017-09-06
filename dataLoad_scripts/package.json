@@ -9,8 +9,10 @@
   "author": "Rohit Jose",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.5.0",
     "cheerio": "^1.0.0-rc.2",
     "jsonframe-cheerio": "^3.0.1",
+    "mongodb": "^2.2.31",
     "request": "^2.81.0"
   }
 }
