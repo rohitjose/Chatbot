@@ -62,7 +62,7 @@ MongoClient.connect(url, function(err, db) {
 
 	db.collection("courses").find({
 		'description': {
-			$exists: true
+			$exists: false
 		}
 	}).toArray(function(err, result) {
 		if (err) throw err;
