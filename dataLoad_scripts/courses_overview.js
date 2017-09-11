@@ -9,7 +9,7 @@ var url_list = [{
 	url: 'http://www.handbook.unsw.edu.au/vbook2017/brCoursesByAtoZ.jsp?StudyLevel=Postgraduate&descr=All',
 	career: 'postgraduate'
 }, {
-	url: 'http://www.handbook.unsw.edu.au/vbook2018/brCoursesByAtoZ.jsp?StudyLevel=Research&descr=All',
+	url: 'http://www.handbook.unsw.edu.au/vbook2017/brCoursesByAtoZ.jsp?StudyLevel=Research&descr=All',
 	career: 'research'
 }];
 
