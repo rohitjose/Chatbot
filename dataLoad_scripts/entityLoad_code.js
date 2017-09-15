@@ -31,6 +31,9 @@ MongoClient.connect(url, function(err, db) {
 			code_entity.synonyms.push(result[i].code);
 			code_entity.synonyms.push(result[i].code.toLowerCase());
 			code_entity.synonyms.push(...vary_string(result[i].code));
+			var title = result[i].course_title.replace(/[()]/g, '');
+			code_entity.synonyms.push(title);
+			code_entity.synonyms.push(title.toLowerCase());
 			course_code.push(code_entity);
 		}
 
