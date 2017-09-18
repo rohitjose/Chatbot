@@ -11,6 +11,10 @@ MongoClient.connect(uri, function(err, db) {
 		}).toArray(function(err, result) {
 			if (err) throw err;
 			console.log(result);
+			var test = result[0].class_detail;
+			test.forEach(function(detail) {
+				console.log(detail);
+			});
 
 		});
 	}
