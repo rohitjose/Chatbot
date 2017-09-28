@@ -4,10 +4,11 @@ module.exports = {
     let intent = req.param('intentName');
     let params = req.param('parameters');
 
-    return res.redirect(url);
+    let url = 'courseinformation/'+intent+'?parameters='+params;
 
+  console.log(url);
     if (intent == 'course_description')
-      return res.redirect('courseinformation/get?parameters='+params);
+      return res.redirect(url);
 
     if (intent == 'class_detail')
       return res.redirect('classdetails/get');

@@ -1,75 +1,52 @@
 module.exports = {
-  get: function (req, res) {
-
-    let params = req.param('parameters');
-    params = JSON.parse(params);
-
-    Courses.find(params).exec(function (err, collection) {
-      if (err) {
-        return res.badRequest({
-          status:'error',
-          msg:err
-        });
-      }
-
-      console.log(collection);
-      return res.ok({data:collection});
-    });
+  course_description: function (req, res) {
+    execute(req, res);
   },
 
-  prerequisites: function (req, res) {
-    let course = param('code');
-    let params = {};
-
-    if (!course) {
-      return res.badRequest({
-        status: 'error',
-        msg: 'invalid arguments'
-      });
-    }
-
-    params.code = course;
-
-    DBService.executeRequest(params, res);
+  classdetail_lecture_mode: function (req, res) {
+    execute(req, res);
   },
 
-  courseInformation: function (req, res) {
-    let code = req.param('code');
-    let title = req.param('title');
-
-    if (!code && !title) {
-      return res.badRequest({
-        status: 'error',
-        msg: 'invalid arguments'
-      });
-    }
-
-    let params = {};
-    if (code) params.code = code;
-    if (title) params.title = title;
-
-    DBService.executeRequest(params, res);
+  course_career: function (req, res) {
+    execute(req, res);
   },
 
-  courseDescription: function (req, res) {
-    let code = req.param('')
-
+  course_enrollment_requirements: function (req, res) {
+    execute(req, res);
   },
 
-  pageLink: function (req, res) {
-
+  course_lookup: function (req, res) {
+    execute(req, res);
   },
 
-  careerInformation: function (req, res) {
-
+  carecourse_outlineerInformation: function (req, res) {
+    execute(req, res);
   },
 
-  UOC:function (req, res) {
-
+  course_page_link:function (req, res) {
+    execute(req, res);
   },
 
-  careerOutline: function (req, res) {
-
+  course_units_of_credit: function (req, res) {
+    execute(req, res);
   }
+}
 
+function execute(req, res) {
+  let params = req.param('parameters');
+  console.log('fetching data ...')
+
+  DBService.execute(params, function(err, data){
+    if (err) {
+      return res.badRequest({
+        status: 'error',
+        msg: err
+      });
+    }
+    console.log(data);
+    return res.ok({
+      status: 'success',
+      data:data
+    });
+  });
 }
