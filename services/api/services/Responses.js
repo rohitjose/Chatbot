@@ -72,7 +72,7 @@ module.exports = {
   },
 
   course_outline: function(courses) {
-    return frameGenericFBTemplate(courses[0]);
+    return frameGenericFBTemplate(courses[0], "", false, true, false);
   },
 
   course_page_link: function(courses) {
@@ -220,17 +220,21 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
             elements: [{
               title: `${course.code} ${course.course_title}`,
               subtitle: subtitle,
-              buttons: [{
-                type: "web_url",
-                url: course.handbook_link,
-                title: 'Handbook link'
-              }]
+              buttons: []
             }]
           }
         }
       }
     }
   };
+
+  if (course.handbook_link && link_handbook) {
+    generic_template.data.facebook.attachment.payload.elements[0].buttons.push({
+      type: "web_url",
+      url: course.handbook_link,
+      title: 'Handbook link'
+    });
+  }
 
   if (course.course_outline_link && link_outline) {
     generic_template.data.facebook.attachment.payload.elements[0].buttons.push({
