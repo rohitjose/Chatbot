@@ -92,18 +92,7 @@ module.exports = {
   },
 
   course_units_of_credit: function(courses) {
-    let responseString = '';
-
-    courses.forEach(function(course, index) {
-      responseString += 'UOC for ' + course.code + ': ' + course.units_of_credit;
-    });
-
-    return {
-      status: 'success',
-      displayText: responseString,
-      speech: responseString,
-      source: courses[0].handbook_link
-    };
+    return frameGenericFBTemplate(courses[0], `UOC for ${courses[0].code} ${courses[0].course_title} is ${courses[0].units_of_credit}`, true, false, false);
   },
 
   //---------------------------------------------------
