@@ -24,8 +24,8 @@ module.exports = {
     // return res.redirect(url);
 
     request('http://localhost:1337' + url, function(error, response, body) {
-      // console.log('error:', error); 
-      // console.log('statusCode:', response && response.statusCode); 
+      console.log('error:', error); 
+      console.log('statusCode:', response && response.statusCode); 
       console.log('body:', body); // Print the HTML for the Google homepage.
     });
 
