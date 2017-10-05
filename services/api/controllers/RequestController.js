@@ -31,19 +31,23 @@ module.exports = {
     // });
 
     let response = `{
-      "status": "success",
-      "source": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9323.html",
-      "course": "COMP9323",
+      "speech": "Description",
+      "source": "www.testclan.com",
+      "displayText": "Description",
       "data": {
         "facebook": {
           "attachment": {
             "type": "template",
             "payload": {
               "template_type": "generic",
-              "buttons": [{
-                "type": "web_url",
-                "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9323.html",
-                "title": "COMP9323 Handbook"
+              "elements": [{
+                "title": "COMP9323 e-Enterprise Project",
+                "subtitle": "Handbook Page",
+                "buttons": [{
+                  "type": "web_url",
+                  "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9323.html",
+                  "title": "COMP9323 Handbook Page"
+                }]
               }]
             }
           }
@@ -51,6 +55,6 @@ module.exports = {
       }
     }`;
 
-    return res.ok(response);
+    return res.ok(JSON.parse(response))
   }
 }
