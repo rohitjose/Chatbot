@@ -231,7 +231,7 @@ function addUrlButtonToResponse(response) {
 
 // Generates a generic FB template for a single course
 function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, link_outline = true, link_school = true) {
-  let subtitle = (subtitle == "") ? course.description : subtitle;
+  subtitle = (subtitle == "") ? course.description : subtitle;
   let generic_template = {
     speech: "Description",
     source: "chappie_middleware",
