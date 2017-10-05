@@ -53,6 +53,6 @@ module.exports = {
       }
     }`;
 
-    return res.ok(JSON.parse(response));
+    return res.ok(response);
   }
 }
