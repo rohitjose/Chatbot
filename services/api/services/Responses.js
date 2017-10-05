@@ -30,13 +30,7 @@ module.exports = {
   },
 
   course_enrollment_requirements: function(courses) {
-    let subtitle = `Enrolment requirements for ${courses[0].code} are: `;
-
-    for (let course of courses) {
-      subtitle = `${subtitle} ${course.career} : ${course.enrolment_requirements} \n`;
-    }
-
-    return frameGenericFBTemplate(courses[0], subtitle);
+    return frameGenericFBTemplate(courses[0], course[0].enrolment_requirements);
   },
 
   course_enrollment_capacity: function(courses) {
