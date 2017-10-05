@@ -24,7 +24,7 @@ module.exports = {
       subtitle = `${subtitle} ${course.career},`;
     }
 
-    subtitle = subtitle.substr(0, substring.length - 1);
+    subtitle = subtitle.substring(0, subtitle.length - 1);
 
     return frameGenericFBTemplate(courses[0], subtitle);
   },
