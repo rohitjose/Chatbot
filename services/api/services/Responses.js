@@ -289,4 +289,6 @@ function frameGenericFBTemplate(course) {
       title: course.school
     });
   }
+
+  return generic_template;
 }
