@@ -46,7 +46,11 @@ module.exports = {
                 "buttons": [{
                   "type": "web_url",
                   "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9323.html",
-                  "title": "COMP9323 Handbook Page"
+                  "title": "Handbook link"
+                },{
+                  "type": "web_url",
+                  "url": "http://www.cse.unsw.edu.au/~cs9323",
+                  "title": "Course outline"
                 }]
               }]
             }
