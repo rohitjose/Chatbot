@@ -6,7 +6,7 @@ module.exports = {
     let url = 'courseinformation/'+intent+'?parameters='+params;
 
     console.log("################ INCOMING REQUEST ###################");
-    console.log(req);
+    console.log(req.body);
     console.log("################ INCOMING REQUEST ###################");
 
     if (!intent || !params) {
