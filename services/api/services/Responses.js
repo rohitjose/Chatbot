@@ -286,7 +286,7 @@ function frameGenericFBTemplate(course) {
     generic_template.data.facebook.attachment.payload.elements[0].buttons.push({
       type: "web_url",
       url: course.school_link,
-      title: course.school
+      title: "School"
     });
   }
 
