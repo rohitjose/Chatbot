@@ -30,7 +30,7 @@ module.exports = {
   },
 
   course_enrollment_requirements: function(courses) {
-    return frameGenericFBTemplate(courses[0], course[0].enrolment_requirements,true,false,true);
+    return frameGenericFBTemplate(courses[0], courses[0].enrolment_requirements,true,false,true);
   },
 
   course_enrollment_capacity: function(courses) {
