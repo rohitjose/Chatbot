@@ -2,7 +2,7 @@ module.exports = {
   get: function(req, res) {
 
     let intent = req.param('intentName') || req.body.result.metadata.intentName;
-    let params = req.param('parameters') || req.body.result.parameters;
+    let params = req.param('parameters') || JSON.stringify(req.body.result.parameters);
     let url = 'courseinformation/' + intent + '?parameters=' + params;
 
     console.log("################ INCOMING REQUEST ###################");
