@@ -30,9 +30,11 @@ module.exports = {
     };
 
     http.get(options, function(resp) {
-      resp.on('data', function(chunk) {
-        //do something with chunk
-        console.log(chunk);
+      console.log('STATUS: ' + res.statusCode);
+      console.log('HEADERS: ' + JSON.stringify(res.headers));
+      res.setEncoding('utf8');
+      res.on('data', function(chunk) {
+        console.log('BODY: ' + chunk);
       });
     }).on("error", function(e) {
       console.log("Got error: " + e.message);
