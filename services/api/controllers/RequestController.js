@@ -22,7 +22,7 @@ module.exports = {
     console.log(url);
     console.log("################ URL REDIRECT ###################");
 
-    make the GET request
+    // make the GET request
     request('http://localhost:1337/' + url, function(err, response) {
       if (err) return console.error(err.message);
 
