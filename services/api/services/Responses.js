@@ -66,19 +66,7 @@ module.exports = {
   },
 
   course_page_link: function(courses) {
-    let responseString = '';
-
-    courses.forEach(function(course, index) {
-      responseString += 'You can get details for ' + course.code + ' at\n';
-      //responseString += course.handbook_link;
-    });
-
-    return {
-      status: 'success',
-      displayText: responseString,
-      speech: responseString,
-      source: courses[0].handbook_link
-    };
+    return frameGenericFBTemplate(courses[0], "", false, true, false);
   },
 
   course_units_of_credit: function(courses) {
