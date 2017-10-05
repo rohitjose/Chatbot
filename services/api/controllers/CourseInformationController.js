@@ -140,13 +140,16 @@ function execute(req, res, cb) {
       res.badRequest(Responses.err_response());
       return cb(err, null);
     }
-    // if (!data || data.length < 1) {
-    //   res.badRequest(Responses.not_found_response());
-    //   return cb(err, null);
-    // }
     else {
       console.log(data);
       return cb(null, data);
     }
   });
+
+  /*DBService.getCoursesForDay(params, function (err, data) {
+    if (err) {
+      console.log(err.message);
+    }
+    console.log(data);
+  });*/
 }
