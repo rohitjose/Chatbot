@@ -20,8 +20,17 @@ module.exports = {
     //   course: courses[0].code
     // };
     // return addUrlButtonToResponse(response);
+    console.log("################## FIRST IDENTIFIED COURSE ##########################");
+    console.log(courses[0]);
+    console.log("################## FIRST IDENTIFIED COURSE ##########################");
 
-    return frameGenericFBTemplate(courses[0]);
+    let response = frameGenericFBTemplate(courses[0]);
+
+    console.log("################## GENERIC TEMPLATE GENERATED ##########################");
+    console.log(response);
+    console.log("################## GENERIC TEMPLATE GENERATED ##########################");
+
+    return response;
   },
 
   course_career: function(courses) {
