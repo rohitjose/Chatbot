@@ -21,23 +21,12 @@ module.exports = {
     console.log("################ URL REDIRECT ###################");
     console.log(url);
     console.log("################ URL REDIRECT ###################");
-    // return res.redirect(url);
 
-    var options = {
-      host: 'localhost',
-      port: 1337,
-      path: "/" + url
-    };
+    // make the GET request
+    request('http://54.206.68.171:1337/courseinformation/course_description?parameters={%22course_code%22:%22COMP9323%22}', function(err, res) {
+      if (err) return console.error(err.message);
 
-    http.get(options, function(resp) {
-      console.log('STATUS: ' + res.statusCode);
-      console.log('HEADERS: ' + JSON.stringify(res.headers));
-      
-      res.on('status', function(chunk) {
-        console.log('BODY: ' + chunk);
-      });
-    }).on("error", function(e) {
-      console.log("Got error: " + e.message);
+      console.log(res.body);
     });
   }
 }
