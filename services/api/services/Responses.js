@@ -4,17 +4,7 @@ module.exports = {
   //---------------------------------------------------
 
   course_description: function(courses) {
-    console.log("################## FIRST IDENTIFIED COURSE ##########################");
-    console.log(courses[0]);
-    console.log("################## FIRST IDENTIFIED COURSE ##########################");
-
-    let response = frameGenericFBTemplate(courses[0]);
-
-    console.log("################## GENERIC TEMPLATE GENERATED ##########################");
-    console.log(response);
-    console.log("################## GENERIC TEMPLATE GENERATED ##########################");
-
-    return response;
+    return frameButtonFBTemplate(courses[0]);
   },
 
   course_career: function(courses) {
@@ -242,4 +232,52 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
   }
 
   return generic_template;
+}
+
+// Generates a button FB template for a single course
+function frameButtonFBTemplate(course, displayText = "", link_handbook = true, link_outline = true, link_school = true) {
+  displayText = (displayText == "") ? course.description : displayText;
+  let button_template = {
+    speech: "Description",
+    source: "chappie_middleware",
+    displayText: "Course Details",
+    data: {
+      facebook: {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "button",
+            text: displayText,
+            buttons: []
+          }
+        }
+      }
+    }
+  };
+
+  if (course.handbook_link && link_handbook) {
+    button_template.data.facebook.attachment.payload.buttons.push({
+      type: "web_url",
+      url: course.handbook_link,
+      title: 'Handbook link'
+    });
+  }
+
+  if (course.course_outline_link && link_outline) {
+    button_template.data.facebook.attachment.payload.buttons.push({
+      type: "web_url",
+      url: course.course_outline_link,
+      title: 'Outline link'
+    });
+  }
+
+  if (course.school_link && link_school) {
+    button_template.data.facebook.attachment.payload.buttons.push({
+      type: "web_url",
+      url: course.school_link,
+      title: "School Page"
+    });
+  }
+
+  return button_template;
 }
