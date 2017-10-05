@@ -39,9 +39,8 @@ module.exports = {
     let responseString = '';
 
     courses.forEach(function (course, index) {
-      responseString += 'Description for '+course.code+' '+course.course_title+':\n';
-      responseString += 'Career: '+course.career+'\n';
-      responseString += 'Description: '+course.description+'\n';
+      responseString += 'Enrolment requirements for '+course.code+':\n';
+      responseString += course.enrolment_requirements+'\n';
     });
 
     return {
@@ -73,9 +72,8 @@ module.exports = {
     let responseString = '';
 
     courses.forEach(function (course, index) {
-      responseString += 'Description for '+course.code+' '+course.course_title+':\n';
-      responseString += 'Career: '+course.career+'\n';
-      responseString += 'Description: '+course.description+'\n';
+      responseString += 'Outline for '+course.code+' can be found at:\n';
+      responseString += course.course_outline+'\n';
     });
 
     return {
@@ -90,9 +88,8 @@ module.exports = {
     let responseString = '';
 
     courses.forEach(function (course, index) {
-      responseString += 'Description for '+course.code+' '+course.course_title+':\n';
-      responseString += 'Career: '+course.career+'\n';
-      responseString += 'Description: '+course.description+'\n';
+      responseString += 'You can get details for '+course.code+' at:\n';
+      responseString += course.handbook_link;
     });
 
     return {
@@ -107,9 +104,7 @@ module.exports = {
     let responseString = '';
 
     courses.forEach(function (course, index) {
-      responseString += 'Description for '+course.code+' '+course.course_title+':\n';
-      responseString += 'Career: '+course.career+'\n';
-      responseString += 'Description: '+course.description+'\n';
+      responseString += 'UOC for '+course.code+': '+course.units_of_credit;
     });
 
     return {
@@ -127,9 +122,12 @@ module.exports = {
     let responseString = '';
 
     courses.forEach(function (course, index) {
-      responseString += 'Description for '+course.code+' '+course.course_title+':\n';
-      responseString += 'Career: '+course.career+'\n';
-      responseString += 'Description: '+course.description+'\n';
+      responseString += 'Lecture modes for '+course.code+' are:';
+      course.class_detail.forEach(function (classDetail, index) {
+        responseString += '\nClass# '+classDetail.class_nbr+'\n';
+        responseString += 'Section '+classDetail.section+'\n';
+        responseString += 'Instruction mode: '+classDetail.instruction_mode+'\n';
+      });
     });
 
     return {
