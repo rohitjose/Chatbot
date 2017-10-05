@@ -33,7 +33,7 @@ module.exports = {
       console.log('STATUS: ' + res.statusCode);
       console.log('HEADERS: ' + JSON.stringify(res.headers));
       
-      res.on('data', function(chunk) {
+      res.on('status', function(chunk) {
         console.log('BODY: ' + chunk);
       });
     }).on("error", function(e) {
