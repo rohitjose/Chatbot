@@ -4,22 +4,6 @@ module.exports = {
   //---------------------------------------------------
 
   course_description: function(courses) {
-    // let responseString = '';
-
-    // courses.forEach(function(course, index) {
-    //   responseString += 'Description for ' + course.code + ' ' + course.course_title + ':\n';
-    //   responseString += 'Career: ' + course.career + '\n';
-    //   responseString += 'Description: ' + course.description + '\n';
-    // });
-
-    // let response = {
-    //   status: 'success',
-    //   displayText: responseString,
-    //   speech: responseString,
-    //   source: courses[0].handbook_link,
-    //   course: courses[0].code
-    // };
-    // return addUrlButtonToResponse(response);
     console.log("################## FIRST IDENTIFIED COURSE ##########################");
     console.log(courses[0]);
     console.log("################## FIRST IDENTIFIED COURSE ##########################");
@@ -34,18 +18,15 @@ module.exports = {
   },
 
   course_career: function(courses) {
-    let responseString = 'Career options for:' + courses[0].code + '\n';
+    let subtitle = `Career options for ${courses[0].code} are: `;
 
-    courses.forEach(function(course, index) {
-      responseString += 'Career: ' + course.career + '\n';
-    });
+    for (let course of courses) {
+      subtitle = `${subtitle} ${course.career},`;
+    }
 
-    return {
-      status: 'success',
-      displayText: responseString,
-      speech: responseString,
-      source: courses[0].handbook_link
-    };
+    subtitle = subtitle.substring(0, substring.length - 1);
+
+    return frameGenericFBTemplate(courses[0], subtitle);
   },
 
   course_enrollment_requirements: function(courses) {
@@ -248,7 +229,9 @@ function addUrlButtonToResponse(response) {
   return response;
 }
 
-function frameGenericFBTemplate(course) {
+// Generates a generic FB template for a single course
+function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, link_outline = true, link_school = true) {
+  let subtitle = (subtitle == "") ? course.description : subtitle;
   let generic_template = {
     speech: "Description",
     source: "chappie_middleware",
@@ -261,7 +244,7 @@ function frameGenericFBTemplate(course) {
             template_type: "generic",
             elements: [{
               title: `${course.code} ${course.course_title}`,
-              subtitle: course.description,
+              subtitle: subtitle,
               buttons: [{
                 type: "web_url",
                 url: course.handbook_link,
@@ -286,7 +269,7 @@ function frameGenericFBTemplate(course) {
     generic_template.data.facebook.attachment.payload.elements[0].buttons.push({
       type: "web_url",
       url: course.school_link,
-      title: "School"
+      title: "School Page"
     });
   }
 
