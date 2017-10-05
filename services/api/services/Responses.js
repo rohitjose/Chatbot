@@ -217,23 +217,22 @@ module.exports = {
 }
 
 function addUrlButtonToResponse(response) {
-  let message = {
+  let data = {
+    facebook:{
       attachment: {
-          type: "template",
-          payload: {
-              template_type: "button",
-              text: response.displayText,
-              buttons: [{
-                type: "web_url",
-                url: response.source,
-                title: response.course+' Handbook'
-              }]
-          }
+        type: "template",
+        payload: {
+          template_type: "generic",
+          buttons: [{
+            type: "web_url",
+            url: response.source,
+            title: response.course+' Handbook'
+          }]
+        }
       }
+    }
   };
-  response.message = message;
-  delete response.displayText;
-  delete response.speech;
-  delete response.status;
+  response.data = data;
+
   return response;
 }
