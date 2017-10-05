@@ -27,6 +27,7 @@ module.exports = {
       if (err) return console.error(err.message);
 
       console.log(res.body);
+      return res.ok(res.body);
     });
   }
 }
