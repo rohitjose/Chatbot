@@ -23,11 +23,11 @@ module.exports = {
     console.log("################ URL REDIRECT ###################");
 
     // make the GET request
-    request('http://localhost:1337/' + url, function(err, res) {
+    request('http://localhost:1337/' + url, function(err, response) {
       if (err) return console.error(err.message);
 
-      console.log(res.body);
-      return res.ok(res.body);
+      console.log(response.body);
+      return res.ok(response.body);
     });
   }
 }
