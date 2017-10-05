@@ -30,7 +30,7 @@ module.exports = {
   },
 
   course_enrollment_requirements: function(courses) {
-    return frameGenericFBTemplate(courses[0], courses[0].enrolment_requirements,true,false,true);
+    return frameGenericFBTemplate(courses[0], courses[0].enrolment_requirements, true, false, true);
   },
 
   course_enrollment_capacity: function(courses) {
@@ -245,7 +245,7 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
     }
   };
 
-  if (course.course_outline_link) {
+  if (course.course_outline_link && link_outline) {
     generic_template.data.facebook.attachment.payload.elements[0].buttons.push({
       type: "web_url",
       url: course.course_outline_link,
@@ -253,7 +253,7 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
     });
   }
 
-  if (course.school_link) {
+  if (course.school_link && link_school) {
     generic_template.data.facebook.attachment.payload.elements[0].buttons.push({
       type: "web_url",
       url: course.school_link,
