@@ -30,19 +30,13 @@ module.exports = {
   },
 
   course_enrollment_requirements: function(courses) {
-    let responseString = '';
+    let subtitle = `Enrolment requirements for ${courses[0].code} are: `;
 
-    courses.forEach(function(course, index) {
-      responseString += 'Enrolment requirements for ' + course.code + ':\n';
-      responseString += course.enrolment_requirements + '\n';
-    });
+    for (let course of courses) {
+      subtitle = `${subtitle} ${course.career} : ${course.enrolment_requirements} \n`;
+    }
 
-    return {
-      status: 'success',
-      displayText: responseString,
-      speech: responseString,
-      source: courses[0].handbook_link
-    };
+    return frameGenericFBTemplate(courses[0], subtitle);
   },
 
   course_enrollment_capacity: function(courses) {
