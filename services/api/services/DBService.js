@@ -30,5 +30,30 @@ module.exports = {
         return cb(null, []);
       });
     });
+  },
+
+  getCoursesForDay: function (params, cb) {
+    /*params = JSON.parse(params);
+    if (!params || !params.course_code) {
+      return cb ('invalid arguments', null);
+    }
+    let query = {
+      class_detail: {
+        day: {
+          'contains': params.day
+        }
+      }
+    };
+
+    Courses.find().where({and:{'class_detail.day':{'contains':"Mon"}}).exec(function (err, collection) {
+      console.log('searching on code with : '+params.course_code);
+      if (err) {
+        console.log(err.message);
+        return cb(err, null);
+      }
+
+      return cb(null, collection);
+    });
+    */
   }
 }

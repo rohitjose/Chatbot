@@ -3,21 +3,6 @@ module.exports = {
   //  ---------- COURSE INFORMATION RESPONSES ---------
   //---------------------------------------------------
 
-  course_career: function(courses) {
-    let responseString = 'Career options for:'+courses[0].code+'\n';
-
-    courses.forEach(function (course, index) {
-      responseString += 'Career: '+course.career+'\n';
-    });
-
-    return {
-      status: 'success',
-      displayText: responseString,
-      speech: responseString,
-      source: courses[0].handbook_link
-    };
-  },
-
   course_description: function(courses) {
     let responseString = '';
 
@@ -25,6 +10,23 @@ module.exports = {
       responseString += 'Description for '+course.code+' '+course.course_title+':\n';
       responseString += 'Career: '+course.career+'\n';
       responseString += 'Description: '+course.description+'\n';
+    });
+
+    let response =  {
+      status: 'success',
+      displayText: responseString,
+      speech: responseString,
+      source: courses[0].handbook_link,
+      course: courses[0].code
+    };
+    return addUrlButtonToResponse(response);
+  },
+
+  course_career: function(courses) {
+    let responseString = 'Career options for:'+courses[0].code+'\n';
+
+    courses.forEach(function (course, index) {
+      responseString += 'Career: '+course.career+'\n';
     });
 
     return {
@@ -51,8 +53,29 @@ module.exports = {
     };
   },
 
-  course_lookup: function(courses) {
+  course_enrollment_capacity: function (courses) {
     let responseString = '';
+
+    courses.forEach(function (course, index) {
+      responseString += '\nEnrolment capacity for '+course.code+':\n';
+      course.class_detail.forEach(function (classDetail, index) {
+        responseString += 'Capacity '+classDetail.capacity+'\n';
+        responseString += 'Class# '+classDetail.class_nbr+'\n';
+        responseString += 'Section '+classDetail.section+'\n';
+        responseString += 'Offering period '+classDetail.offering_period+'\n\n';
+      });
+    });
+
+    return {
+      status: 'success',
+      displayText: responseString,
+      speech: responseString,
+      source: courses[0].handbook_link
+    };
+  },
+
+  course_lookup: function(courses) {
+    /*let responseString = '';
 
     courses.forEach(function (course, index) {
       responseString += 'Description for '+course.code+' '+course.course_title+':\n';
@@ -65,31 +88,32 @@ module.exports = {
       displayText: responseString,
       speech: responseString,
       source: courses[0].handbook_link
-    };
+    };*/
   },
 
   course_outline: function(courses) {
     let responseString = '';
 
     courses.forEach(function (course, index) {
-      responseString += 'Outline for '+course.code+' can be found at:\n';
-      responseString += course.course_outline+'\n';
+      responseString += 'Outline for '+course.code+' can be found here:\n';
+      //responseString += course.course_outline+'\n';
     });
 
-    return {
+    let response =  {
       status: 'success',
       displayText: responseString,
       speech: responseString,
-      source: courses[0].handbook_link
+      source: courses[0].course_outline
     };
+    return addUrlButtonToResponse(response);
   },
 
   course_page_link: function(courses) {
     let responseString = '';
 
     courses.forEach(function (course, index) {
-      responseString += 'You can get details for '+course.code+' at:\n';
-      responseString += course.handbook_link;
+      responseString += 'You can get details for '+course.code+' at\n';
+      //responseString += course.handbook_link;
     });
 
     return {
@@ -118,6 +142,34 @@ module.exports = {
   //---------------------------------------------------
   //  ---------- CLASS DETAILS RESPONSES ----------
   //---------------------------------------------------
+  classdetail_day_info: function (courses) {
+    let responseString = '';
+
+    courses.forEach(function (course, index) {
+      responseString += 'Lecture modes for '+course.code+' are:';
+      course.class_detail.forEach(function (classDetail, index) {
+        responseString += '\nClass# '+classDetail.class_nbr+'\n';
+        responseString += 'Section '+classDetail.section+'\n';
+        responseString += 'Instruction mode: '+classDetail.instruction_mode+'\n';
+      });
+    });
+
+    return {
+      status: 'success',
+      displayText: responseString,
+      speech: responseString,
+      source: courses[0].handbook_link
+    };
+  },
+
+  classdetail_instructor: function (courses) {
+
+  },
+
+  classdetail_lecture_duration: function (courses) {
+
+  },
+
   classdetail_lecture_mode: function(courses) {
     let responseString = '';
 
@@ -138,6 +190,14 @@ module.exports = {
     };
   },
 
+  classdetail_lecture_location: function (courses) {
+
+  },
+
+  classdetail_timetable: function (courses) {
+
+  },
+
   //---------------------------------------------------
   //  ---------- EXCEPTION RESPONSES ----------
   //---------------------------------------------------
@@ -154,4 +214,14 @@ module.exports = {
       displayText: 'No results found'
     }
   }
+}
+
+function addUrlButtonToResponse(response) {
+  let buttons = [{
+    type: "web_url",
+    title: response.course+' Handbook',
+    url:response.source
+  }];
+  response.buttons = buttons;
+  return response;
 }
