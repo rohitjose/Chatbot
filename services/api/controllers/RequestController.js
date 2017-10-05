@@ -42,7 +42,7 @@ module.exports = {
               "template_type": "generic",
               "elements": [{
                 "title": "COMP9323 e-Enterprise Project",
-                "subtitle": "Handbook Page",
+                "subtitle": "This course covers principles, techniques, architectures, and enabling technologies for the development of the different components and layers of complex e-Commerce systems (presentation and personalisation layer, business logic, message exchange). In particular, it discusses the processes related to (1) building a large enterprise system in collaboration with other project members, (2) developing software in a culture of participation, (3) developing software using agile software engineering methodologies, (4) integrating a number of separate components to build an integrated system, and (5) developing appropriate testing strategies and methodologies for given projects",
                 "buttons": [{
                   "type": "web_url",
                   "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9323.html",
