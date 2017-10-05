@@ -23,7 +23,7 @@ module.exports = {
     console.log("################ URL REDIRECT ###################");
 
     // make the GET request
-    request('http://54.206.68.171:1337/courseinformation/course_description?parameters={%22course_code%22:%22COMP9323%22}', function(err, res) {
+    request('http://localhost:1337/courseinformation/course_description?parameters={%22course_code%22:%22COMP9323%22}', function(err, res) {
       if (err) return console.error(err.message);
 
       console.log(res.body);
