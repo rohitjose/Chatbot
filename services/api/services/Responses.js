@@ -217,11 +217,23 @@ module.exports = {
 }
 
 function addUrlButtonToResponse(response) {
-  let buttons = [{
-    type: "web_url",
-    title: response.course+' Handbook',
-    url:response.source
-  }];
-  response.buttons = buttons;
+  let message = {
+      attachment: {
+          type: "template",
+          payload: {
+              template_type: "button",
+              text: response.displayText,
+              buttons: [{
+                type: "web_url",
+                url: response.source,
+                title: response.course+' Handbook'
+              }]
+          }
+      }
+  };
+  response.message = message;
+  delete response.displayText;
+  delete response.speech;
+  delete response.status;
   return response;
 }
