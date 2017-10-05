@@ -24,24 +24,28 @@ module.exports = {
   },
 
   course_enrollment_capacity: function(courses) {
-    let responseString = '';
+    // let responseString = '';
 
-    courses.forEach(function(course, index) {
-      responseString += '\nEnrolment capacity for ' + course.code + ':\n';
-      course.class_detail.forEach(function(classDetail, index) {
-        responseString += 'Capacity ' + classDetail.capacity + '\n';
-        responseString += 'Class# ' + classDetail.class_nbr + '\n';
-        responseString += 'Section ' + classDetail.section + '\n';
-        responseString += 'Offering period ' + classDetail.offering_period + '\n\n';
-      });
-    });
+    // courses.forEach(function(course, index) {
+    //   responseString += '\nEnrolment capacity for ' + course.code + ':\n';
+    //   course.class_detail.forEach(function(classDetail, index) {
+    //     responseString += 'Capacity ' + classDetail.capacity + '\n';
+    //     responseString += 'Class# ' + classDetail.class_nbr + '\n';
+    //     responseString += 'Section ' + classDetail.section + '\n';
+    //     responseString += 'Offering period ' + classDetail.offering_period + '\n\n';
+    //   });
+    // });
 
-    return {
-      status: 'success',
-      displayText: responseString,
-      speech: responseString,
-      source: courses[0].handbook_link
-    };
+    // return {
+    //   status: 'success',
+    //   displayText: responseString,
+    //   speech: responseString,
+    //   source: courses[0].handbook_link
+    // };
+
+    console.log(courses);
+
+
   },
 
   course_lookup: function(courses) {
@@ -268,4 +272,28 @@ function frameButtonFBTemplate(course, displayText = "", link_handbook = true, l
   }
 
   return button_template;
+}
+
+// Generates a List FB template input elements
+function frameListFBTemplate(course, elements, link_handbook = true, link_outline = true, link_school = true) {
+  displayText = (displayText == "") ? course.description : displayText;
+  let list_template = {
+    speech: "Description",
+    source: "chappie_middleware",
+    displayText: "Course Details",
+    data: {
+      facebook: {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "list",
+            top_element_style: "compact",
+            elements: elements
+          }
+        }
+      }
+    }
+  };
+
+  return list_template;
 }
