@@ -72,20 +72,7 @@ module.exports = {
   },
 
   course_outline: function(courses) {
-    let responseString = '';
-
-    courses.forEach(function(course, index) {
-      responseString += 'Outline for ' + course.code + ' can be found here:\n';
-      //responseString += course.course_outline+'\n';
-    });
-
-    let response = {
-      status: 'success',
-      displayText: responseString,
-      speech: responseString,
-      source: courses[0].course_outline
-    };
-    return addUrlButtonToResponse(response);
+    return frameGenericFBTemplate(courses[0]);
   },
 
   course_page_link: function(courses) {
