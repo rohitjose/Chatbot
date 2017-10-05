@@ -26,7 +26,7 @@ module.exports = {
     var options = {
       host: 'localhost',
       port: 1337,
-      path: url
+      path: "/" + url
     };
 
     http.get(options, function(resp) {
