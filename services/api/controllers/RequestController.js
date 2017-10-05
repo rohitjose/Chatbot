@@ -29,7 +29,7 @@ module.exports = {
       path: url
     };
 
-    http.post(options, function(resp) {
+    http.get(options, function(resp) {
       resp.on('data', function(chunk) {
         //do something with chunk
         console.log(chunk);
