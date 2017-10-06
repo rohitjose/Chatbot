@@ -176,7 +176,7 @@ function addUrlButtonToResponse(response) {
 }
 
 // Generates a generic FB template for a single course
-function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, link_outline = true, link_school = true) {
+function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, link_outline = true, link_timetable = true) {
   subtitle = (subtitle == "") ? course.description : subtitle;
   let generic_template = {
     speech: "Description",
@@ -215,11 +215,11 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
     });
   }
 
-  if (course.school_link && link_school) {
+  if (course.class_timetable_link && link_timetable) {
     generic_template.data.facebook.attachment.payload.elements[0].buttons.push({
       type: "web_url",
-      url: course.school_link,
-      title: "School Page"
+      url: course.class_timetable_link,
+      title: "Timetable"
     });
   }
 
@@ -227,7 +227,7 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
 }
 
 // Generates a button FB template for a single course
-function frameButtonFBTemplate(course, displayText = "", link_handbook = true, link_outline = true, link_school = true) {
+function frameButtonFBTemplate(course, displayText = "", link_handbook = true, link_outline = true, link_timetable = true) {
   displayText = (displayText == "") ? course.description : displayText;
 
   // Trim displayText to  640 characters | FB requirement
@@ -267,11 +267,11 @@ function frameButtonFBTemplate(course, displayText = "", link_handbook = true, l
     });
   }
 
-  if (course.school_link && link_school) {
+  if (course.school_link && link_timetable) {
     button_template.data.facebook.attachment.payload.buttons.push({
       type: "web_url",
-      url: course.school_link,
-      title: "School Page"
+      url: course.class_timetable_link,
+      title: "Timetable"
     });
   }
 
