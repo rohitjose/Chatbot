@@ -43,7 +43,7 @@ module.exports = {
     //   source: courses[0].handbook_link
     // };
 
-    console.log(courses);
+    let elements = [];
 
 
   },
@@ -296,4 +296,33 @@ function frameListFBTemplate(course, elements, link_handbook = true, link_outlin
   };
 
   return list_template;
+}
+
+
+// Returns an element of a list
+function defineFBElement(title, subtitle, image_url, buttons) {
+  let element = {
+    title: "Classic T-Shirt Collection",
+    subtitle: "See all our colors",
+  };
+
+  if (image_url) {
+    element.image_url = image_url;
+  }
+
+  if (buttons) {
+    element.buttons = buttons;
+  }
+
+  return element;
+}
+
+function defineFBButton(url, title) {
+  let button = {
+    type: "web_url",
+    url: url,
+    title: title
+  };
+
+  return button;
 }
