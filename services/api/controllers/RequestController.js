@@ -64,7 +64,8 @@ module.exports = {
         }
       }
     }
-  }`;
+  }
+}`;
 
     return res.ok(JSON.parse(response));
   }
