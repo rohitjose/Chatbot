@@ -229,6 +229,10 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
 // Generates a button FB template for a single course
 function frameButtonFBTemplate(course, displayText = "", link_handbook = true, link_outline = true, link_school = true) {
   displayText = (displayText == "") ? course.description : displayText;
+
+  // Trim displayText to  640 characters | FB requirement
+  displayText = displayText.substring(0, 640);
+
   let button_template = {
     speech: "Description",
     source: "chappie_middleware",

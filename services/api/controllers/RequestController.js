@@ -26,47 +26,47 @@ module.exports = {
     res.header("Content-Type", "application/json; charset=utf-8");
 
     // make the GET request
-    // request('http://localhost:1337/' + url, function(err, response) {
+    request('http://localhost:1337/' + url, function(err, response) {
 
-    //   if (err) return console.error(err.message);
+      if (err) return console.error(err.message);
 
-    //   console.log("################ MIDDLEWARE RESPONSE ###################");
-    //   console.log(response.body);
-    //   console.log("################ MIDDLEWARE RESPONSE ###################");
+      console.log("################ MIDDLEWARE RESPONSE ###################");
+      console.log(response.body);
+      console.log("################ MIDDLEWARE RESPONSE ###################");
 
-    //   return res.ok(response.body);
-    // });
+      return res.ok(response.body);
+    });
 
-    let response = `{
-  "speech": "Description",
-  "source": "chappie_middleware",
-  "displayText": "Course Details",
-  "data": {
-    "facebook": {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "button",
-          "text": "Hardcoded response",
-          "buttons": [{
-            "type": "web_url",
-            "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9323.html",
-            "title": "Handbook link"
-          }, {
-            "type": "web_url",
-            "url": "http://www.cse.unsw.edu.au/~cs9323",
-            "title": "Outline link"
-          }, {
-            "type": "web_url",
-            "url": "http://www.cse.unsw.edu.au/",
-            "title": "School Page"
-          }]
-        }
-      }
-    }
-  }
-}`;
+//     let response = `{
+//   "speech": "Description",
+//   "source": "chappie_middleware",
+//   "displayText": "Course Details",
+//   "data": {
+//     "facebook": {
+//       "attachment": {
+//         "type": "template",
+//         "payload": {
+//           "template_type": "button",
+//           "text": "Hardcoded response",
+//           "buttons": [{
+//             "type": "web_url",
+//             "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9323.html",
+//             "title": "Handbook link"
+//           }, {
+//             "type": "web_url",
+//             "url": "http://www.cse.unsw.edu.au/~cs9323",
+//             "title": "Outline link"
+//           }, {
+//             "type": "web_url",
+//             "url": "http://www.cse.unsw.edu.au/",
+//             "title": "School Page"
+//           }]
+//         }
+//       }
+//     }
+//   }
+// }`;
 
-    return res.ok(JSON.parse(response));
+//     return res.ok(JSON.parse(response));
   }
 }
