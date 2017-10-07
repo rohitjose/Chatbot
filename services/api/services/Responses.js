@@ -1,3 +1,7 @@
+const Moment = require('moment');
+const MomentRange = require('moment-range');
+const moment = MomentRange.extendMoment(Moment);
+
 module.exports = {
   //---------------------------------------------------
   //  ---------- COURSE INFORMATION RESPONSES ---------
@@ -13,9 +17,7 @@ module.exports = {
     for (let course of courses) {
       subtitle = `${subtitle} ${course.career},`;
     }
-
     subtitle = subtitle.substring(0, subtitle.length - 1);
-
     return frameGenericFBTemplate(courses[0], subtitle);
   },
 
@@ -24,95 +26,78 @@ module.exports = {
   },
 
   course_enrollment_capacity: function(courses) {
-    // let responseString = '';
+    let subtitle = '';
 
-    // courses.forEach(function(course, index) {
-    //   responseString += '\nEnrolment capacity for ' + course.code + ':\n';
-    //   course.class_detail.forEach(function(classDetail, index) {
-    //     responseString += 'Capacity ' + classDetail.capacity + '\n';
-    //     responseString += 'Class# ' + classDetail.class_nbr + '\n';
-    //     responseString += 'Section ' + classDetail.section + '\n';
-    //     responseString += 'Offering period ' + classDetail.offering_period + '\n\n';
-    //   });
-    // });
+    //courses.forEach(function(course, index) {
+    //  responseString += '\nEnrolment capacity for ' + course.code + ':\n';
+      courses[0].class_detail.forEach(function(classDetail, index) {
+        subtitle += 'Class# ' + classDetail.class_nbr + '\n';
+        subtitle += 'Section ' + classDetail.section + '\n';
+        subtitle += 'Capacity ' + classDetail.capacity + '\n';
+        subtitle += 'Offering period ' + classDetail.offering_period + '\n\n';
+      });
+    //});
 
-    // return {
-    //   status: 'success',
-    //   displayText: responseString,
-    //   speech: responseString,
-    //   source: courses[0].handbook_link
-    // };
+    let title = 'Enrolment capacity for ' + courses[0].code + courses[0].course_title;
 
-    let elements = [];
-
-
+    return frameGenericFBTemplate(courses[0], subtitle, true, false, true, title);
   },
 
+  //make this in a list template
   course_lookup: function(courses) {
-    /*let responseString = '';
-
-    courses.forEach(function (course, index) {
-      responseString += 'Description for '+course.code+' '+course.course_title+':\n';
-      responseString += 'Career: '+course.career+'\n';
-      responseString += 'Description: '+course.description+'\n';
-    });
-
-    return {
-      status: 'success',
-      displayText: responseString,
-      speech: responseString,
-      source: courses[0].handbook_link
-    };*/
   },
 
   course_outline: function(courses) {
-    return frameGenericFBTemplate(courses[0], "", false, true, false);
+    let title = 'Outline for '+courses[0].code+' '+courses[0].course_title;
+    return frameGenericFBTemplate(courses[0], "", false, true, false, title);
   },
 
   course_page_link: function(courses) {
-    return frameGenericFBTemplate(courses[0], "", false, true, false);
+    let subtitle = 'Here is the page link for '+courses[0].code+' '+courses[0].course_title;
+    return frameGenericFBTemplate(courses[0], subtitle, false, true, false);
   },
 
   course_units_of_credit: function(courses) {
-    return frameGenericFBTemplate(courses[0], `UOC for ${courses[0].code} ${courses[0].course_title} is ${courses[0].units_of_credit}`, true, false, false);
+    return frameGenericFBTemplate(courses[0], `UOC for ${courses[0].code} ${courses[0].course_title} are ${courses[0].units_of_credit}`, true, false, false);
   },
 
   //---------------------------------------------------
   //  ---------- CLASS DETAILS RESPONSES ----------
   //---------------------------------------------------
   classdetail_day_info: function(courses) {
-    let responseString = '';
-
+    let courseList = [];
     courses.forEach(function(course, index) {
-      responseString += 'Lecture modes for ' + course.code + ' are:';
-      course.class_detail.forEach(function(classDetail, index) {
-        responseString += '\nClass# ' + classDetail.class_nbr + '\n';
-        responseString += 'Section ' + classDetail.section + '\n';
-        responseString += 'Instruction mode: ' + classDetail.instruction_mode + '\n';
-      });
+      courseList.push(defineFBButton(course.handbook_link, ''+course.code+' '+course.course_title));
     });
 
-    return {
-      status: 'success',
-      displayText: responseString,
-      speech: responseString,
-      source: courses[0].handbook_link
-    };
+    let elements = [
+      {
+        title:'Here is the list of courses offered on this day',
+        subtitle: ''
+      },
+      {
+        buttons: courseList
+      }
+    ];
+
+    return frameListFBTemplate(null, elements, false, false, false);
   },
 
   classdetail_instructor: function(courses) {
-
+    let responseString = courses[0].class_detail[0].instructor+' is the instructor for '+courses[0].code+' '+courses[0].course_title;
+    return (frameButtonFBTemplate(courses[0], responseString, true, false, false));
   },
 
   classdetail_lecture_duration: function(courses) {
-
+    let responseString = 'Lecture duration for '+courses[0].code+' '+courses[0].course_title+' is '+courses[0].class_detail[0].time+' on '+courses[0].class_detail[0].day;
+    return (frameButtonFBTemplate(courses[0], responseString, false, false, true));
   },
 
   classdetail_lecture_mode: function(courses) {
     let responseString = '';
 
     courses.forEach(function(course, index) {
-      responseString += 'Lecture modes for ' + course.code + ' are:';
+      responseString += 'Lecture modes for ' + course.code + ' '+course.career+' are:';
       course.class_detail.forEach(function(classDetail, index) {
         responseString += '\nClass# ' + classDetail.class_nbr + '\n';
         responseString += 'Section ' + classDetail.section + '\n';
@@ -120,20 +105,100 @@ module.exports = {
       });
     });
 
-    return {
-      status: 'success',
-      displayText: responseString,
-      speech: responseString,
-      source: courses[0].handbook_link
-    };
+    return (frameButtonFBTemplate(courses[0], responseString, false, false, true));
   },
 
   classdetail_lecture_location: function(courses) {
 
+    let responseString = '';
+
+    courses.forEach(function(course, index) {
+      responseString += course.code + ' '+course.career+' ';
+      course.class_detail.forEach(function(classDetail, index) {
+        responseString += '\nClass# ' + classDetail.class_nbr + '\n';
+        responseString += 'Section ' + classDetail.section + '\n';
+        responseString += 'Lecture location: ' + classDetail.location + '\n';
+      });
+    });
+
+    return (frameButtonFBTemplate(courses[0], responseString, false, false, true));
   },
 
   classdetail_timetable: function(courses) {
+    let subtitle = 'You can find the timetable here: ';
+    return frameGenericFBTemplate(courses[0], subtitle, false, false, true);
+  },
 
+  classdetail_clash: function (courses) {
+    let clashes = [];
+    let buttons = [];
+    let elements = [];
+    let clash = false;
+
+    for (i=0;i<courses.length;i++) {
+      clash = false;
+
+      if (i < courses.length-1) {
+        let course1 = courses[i];
+
+        for (j=i+1;j<courses.length;j++) {
+          //clash = false;
+          let course2 = courses[j];
+
+          //if the courses are the same (happens in case if program is offered for both post and undergrad)
+          if (course1.code != course2.code) {
+
+            for (x=0;x<course1.class_detail.length;x++) {
+              let classDetail1 = course1.class_detail[x];
+
+              for (y=0;y<course2.class_detail.length;y++) {
+                let classDetail2 = course2.class_detail[y];
+
+                if (classDetail2.teaching_period == classDetail1.teaching_period
+                  && classDetail2.day == classDetail1.day
+                  && (classDetail2.offering_period == classDetail1.offering_period)//try to check overlap of offering dates too
+                  && timeOverlap(classDetail2.time, classDetail1.time)) {
+
+                  //this means there is a clash
+                  clashes.push({
+                    c1:{code:course1.code, day:classDetail1.day, time:classDetail1.time, course:course1},
+                    c2:{code:course2.code, day:classDetail2.day, time:classDetail2.time, course:course2}
+                  });
+                  clash = true;
+                  break;
+                }
+              }
+              if (clash) {
+                console.log('clash found');
+                break;
+              }
+            }
+            if (clash) {
+              console.log('clash found');
+              break;
+            }
+          }
+        }
+      }
+    }
+    if (!clashes || clashes.length < 1) {
+      subtitle = 'I did not find any clash between their lectures. You should be able to enroll in these courses.';
+      elements.push({subtitle: subtitle});
+    }
+    else {
+      clashes.forEach(function (clash, index) {
+        let title = 'Clash in '+clash.c1.code+' and '+clash.c2.code;
+        let subtitle = clash.c1.code+' has classes on '+clash.c1.day+' from '+clash.c1.time+' and ';
+        subtitle += clash.c2.code+' has classes on '+clash.c2.day+' from '+clash.c2.time;
+
+        elements.push({title: title, subtitle: subtitle});
+        buttons.push(defineFBButton(clash.c1.course.class_timetable_link, ''+clash.c1.code+' Timetable'));
+        buttons.push(defineFBButton(clash.c2.course.class_timetable_link, ''+clash.c2.code+' Timetable'));
+      });
+      elements.push({buttons: buttons});
+    }
+
+    return frameListFBTemplate(null, elements, false, false, false);
   },
 
   //---------------------------------------------------
@@ -176,8 +241,10 @@ function addUrlButtonToResponse(response) {
 }
 
 // Generates a generic FB template for a single course
-function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, link_outline = true, link_timetable = true) {
+function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, link_outline = true, link_timetable = true, title) {
   subtitle = (subtitle == "") ? course.description : subtitle;
+  if (!title || title == "") title = course.code+' '+course.course_title;
+
   let generic_template = {
     speech: "Description",
     source: "chappie_middleware",
@@ -189,7 +256,7 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
           payload: {
             template_type: "generic",
             elements: [{
-              title: `${course.code} ${course.course_title}`,
+              title: title,
               subtitle: subtitle,
               buttons: []
             }]
@@ -222,7 +289,6 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
       title: "Timetable"
     });
   }
-
   return generic_template;
 }
 
@@ -280,7 +346,7 @@ function frameButtonFBTemplate(course, displayText = "", link_handbook = true, l
 
 // Generates a List FB template input elements
 function frameListFBTemplate(course, elements, link_handbook = true, link_outline = true, link_school = true) {
-  displayText = (displayText == "") ? course.description : displayText;
+
   let list_template = {
     speech: "Description",
     source: "chappie_middleware",
@@ -306,8 +372,8 @@ function frameListFBTemplate(course, elements, link_handbook = true, link_outlin
 // Returns an element of a list
 function defineFBElement(title, subtitle, image_url, buttons) {
   let element = {
-    title: "Classic T-Shirt Collection",
-    subtitle: "See all our colors",
+    title: title,
+    subtitle: subtitle,
   };
 
   if (image_url) {
@@ -329,4 +395,15 @@ function defineFBButton(url, title) {
   };
 
   return button;
+}
+
+function timeOverlap(t1, t2) {
+  let time1 = t1.split(' - ');
+  let time2 = t2.split(' - ');
+
+  var range1 = moment.range(moment(time1[0], 'hh:mm'), moment(time1[1], 'hh:mm'));
+  var range2 = moment.range(moment(time2[0], 'hh:mm'), moment(time2[1], 'hh:mm'));
+
+  return range1.overlaps(range2);
+
 }

@@ -58,9 +58,11 @@ module.exports.connections = {
    ***************************************************************************/
   someMongodbServer: {
     adapter: 'sails-mongo',
-    host: 'localhost', // defaults to `localhost` if omitted 
-    port: 27017, // defaults to 27017 if omitted 
-    database: 'handbook' // or omit if not relevant
+    // url: 'mongodb://middleware:B9GnO7PCcfsyQ8qH@mongocluster-shard-00-00-zyzns.mongodb.net:27017,mongocluster-shard-00-01-zyzns.mongodb.net:27017,mongocluster-shard-00-02-zyzns.mongodb.net:27017/handbook?ssl=true&replicaSet=MongoCluster-shard-0&authSource=admin',
+    // ssl: true
+    host: 'localhost',
+    port: 27017,
+    database: 'handbook'
   }
 
   /***************************************************************************
