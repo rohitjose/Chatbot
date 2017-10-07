@@ -67,7 +67,7 @@ module.exports = {
   classdetail_day_info: function(courses) {
     let courseList = [];
     courses.forEach(function(course, index) {
-      courseList.push(defineFBButton(course.handbook_link, ''+course.code+' '+course.course_title));
+      courseList.push(defineFBButton(course.handbook_link, ''+course.code+' '+course.course_title+' ('+course.career+')'));
     });
 
     let elements = [

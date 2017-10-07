@@ -12,7 +12,18 @@ module.exports = {
       if (err) {
         return cb(err, null);
       }
-      return cb(null, collection);
+      if (!collection || collection.length < 1) {
+        let query = generateQuery(params, true);
+        Courses.find().where(query).exec(function (err, collection) {
+          if (err) {
+            return cb(err, null);
+          }
+          return cb(null, collection);
+        });
+      }
+      else {
+        return cb(null, collection);
+      }
     });
 
   }
@@ -47,14 +58,19 @@ function getCourseInfo(params, cb) {
 }
 */
 
-function generateQuery(params) {
-  let query = [];
+function generateQuery(params, secondIter) {
+  let qry = '{';
   let key2;
 
   Object.keys(params).forEach(function (key, index) {
 
     if (key == 'course_code') {
-      key2 = 'code';
+      if (secondIter) {
+        key2 = 'course_title';
+      }
+      else {
+        key2 = 'code';
+      }
     }
     else if (key == 'day' || key == 'time') {
       key2 = 'class_detail.'+key;
@@ -64,30 +80,21 @@ function generateQuery(params) {
     }
 
     if(params[key] instanceof Array) {
-      let or = [];
+      qry += '"or":[{'
 
       params[key].forEach(function (param, idx) {
-        or.push({[key2]:{'contains':days(param)}});
-
-        //if key is code then also add a parameter 'title' for searching on title
-        if (key2 == 'code') {
-          or.push({course_title:{'contains':param}});
-        }
+        qry += '"'+key2+'":{"contains":"'+days(param)+'"},';
       });
-
-      query.push({or:or});
+      qry = qry.substring(0, qry.length-1);
+      qry += '}]';
     }
     else {
-      //if key is code then also add a parameter 'title' for searching on title
-      if (key2 == 'code') {
-        query.push({or:[{code:{'contains':params[key]}}, {course_title:{'contains':params[key]}}]});
-      }
-      else {
-        query.push({[key2]:{'contains':days(params[key])}});
-      }
+      if (qry.length > 1) qry += ', '
+      qry += '"'+key2+'"'+':{'+'"contains"'+':'+'"'+days(params[key])+'"'+'}';
     }
   });
-  return query;
+  qry += '}';
+  return JSON.parse(qry);
 }
 
 function days(day) {
