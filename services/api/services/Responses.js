@@ -87,7 +87,7 @@ module.exports = {
 
     let elements = [
       {
-        title:'Here is the list of courses offered on this day',
+        title:'Here are some courses offered on this day',
         subtitle: ''
       },
       {

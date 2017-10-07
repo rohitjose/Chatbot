@@ -137,6 +137,7 @@ function execute(req, res, cb) {
     }
     else {
       console.log(data);
+      if (data.length > 6) return cb(null, data.slice(0, 5));
       return cb(null, data);
     }
   });
