@@ -5,7 +5,7 @@ module.exports = {
     if (!params || !params.course_code) {
       return cb ('invalid arguments', null);
     }
-    if (params.course_code instanceof Array) {
+    if (params.course_code instanceof Array && params.course_code.length > 1) {
       getClashes(params, cb);
     }
     else {
@@ -22,7 +22,7 @@ function normalFetch(params, cb) {
       return cb(err, null);
     }
     if (!collection || collection.length < 1) {
-      let query = generateQuery(params, true);
+      query = generateQuery(params, true);
       Courses.find().where(query).exec(function (err, collection) {
         if (err) {
           return cb(err, null);
@@ -37,20 +37,33 @@ function normalFetch(params, cb) {
 }
 
 function getClashes(params, cb) {
-  let query = generateQuery(params);
+
+  let query = generateQuery(params, false);
+  //query = {or:[{code:{'contains':'comp9321'}}, {code:{'contains':'COMP9318'}}], 'class_detail.day':'Mon'};
 
   Courses.find().where(query).exec(function (err, collection) {
     if (err) {
       return cb(err, null);
     }
-    if (!collection || collection.length < 1) {
-      let query = generateQuery(params, true);
-
-      Courses.find().where(query).exec(function (err, collection) {
+    else if (!collection || collection.length < 1) {
+      query = generateQuery(params, true);
+      Courses.find().where(query).exec(function (err, coll) {
         if (err) {
           return cb(err, null);
         }
-        return cb(null, collection);
+        return cb(null, coll);
+      });
+    }
+    else if (collection.length < 2 || collection[0].code == collection[1].code) {
+      params.course_code.splice(params.course_code.indexOf(collection[0].code), 1);
+      query = generateQuery(params, true);
+      let result = [].concat(collection);
+      Courses.find().where(query).exec(function (err, coll) {
+        if (err) {
+          return cb(err, null);
+        }
+        result = result.concat(coll);
+        return cb(null, result);
       });
     }
     else {
@@ -110,13 +123,21 @@ function generateQuery(params, secondIter) {
     }
 
     if(params[key] instanceof Array) {
-      qry += '"or":[{'
+      if (qry.length > 1) qry += ', ';
 
-      params[key].forEach(function (param, idx) {
-        qry += '"'+key2+'":{"contains":"'+days(param)+'"},';
-      });
-      qry = qry.substring(0, qry.length-1);
-      qry += '}]';
+      if (params[key].length > 1) {
+        qry += '"or":['
+        params[key].forEach(function (param, idx) {
+          qry += '{"'+key2+'":{"contains":"'+param+'"}},';
+        });
+        qry = qry.substring(0, qry.length-1);
+        qry += ']';
+      }
+      else {
+        params[key].forEach(function (param, idx) {
+          qry += '"'+key2+'":{"contains":"'+param+'"}';
+        });
+      }
     }
     else {
       if (qry.length > 1) qry += ', '
