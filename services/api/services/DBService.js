@@ -5,28 +5,58 @@ module.exports = {
     if (!params || !params.course_code) {
       return cb ('invalid arguments', null);
     }
-
-    let query = generateQuery(params);
-
-    Courses.find().where(query).exec(function (err, collection) {
-      if (err) {
-        return cb(err, null);
-      }
-      if (!collection || collection.length < 1) {
-        let query = generateQuery(params, true);
-        Courses.find().where(query).exec(function (err, collection) {
-          if (err) {
-            return cb(err, null);
-          }
-          return cb(null, collection);
-        });
-      }
-      else {
-        return cb(null, collection);
-      }
-    });
-
+    if (params.course_code instanceof Array) {
+      getClashes(params, cb);
+    }
+    else {
+      normalFetch(params, cb);
+    }
   }
+}
+
+function normalFetch(params, cb) {
+  let query = generateQuery(params);
+
+  Courses.find().where(query).exec(function (err, collection) {
+    if (err) {
+      return cb(err, null);
+    }
+    if (!collection || collection.length < 1) {
+      let query = generateQuery(params, true);
+      Courses.find().where(query).exec(function (err, collection) {
+        if (err) {
+          return cb(err, null);
+        }
+        return cb(null, collection);
+      });
+    }
+    else {
+      return cb(null, collection);
+    }
+  });
+}
+
+function getClashes(params, cb) {
+  let query = generateQuery(params);
+
+  Courses.find().where(query).exec(function (err, collection) {
+    if (err) {
+      return cb(err, null);
+    }
+    if (!collection || collection.length < 1) {
+      let query = generateQuery(params, true);
+
+      Courses.find().where(query).exec(function (err, collection) {
+        if (err) {
+          return cb(err, null);
+        }
+        return cb(null, collection);
+      });
+    }
+    else {
+      return cb(null, collection);
+    }
+  });
 }
 
 /*
@@ -98,25 +128,25 @@ function generateQuery(params, secondIter) {
 }
 
 function days(day) {
-  if (day.toLowerCase() == 'monday' || day.toLowerCase() == 'mon') {
+  if (day.toLowerCase() == 'monday' || day.toLowerCase() == 'mondays') {
     return 'mon';
   }
-  if (day.toLowerCase() == 'tuesday' || day.toLowerCase() == 'tues') {
+  if (day.toLowerCase() == 'tuesday' || day.toLowerCase() == 'tuesdays' || day.toLowerCase() == 'tues') {
     return 'tue';
   }
-  if (day.toLowerCase() == 'wednesday' || day.toLowerCase() == 'wedns') {
+  if (day.toLowerCase() == 'wednesday' || day.toLowerCase() == 'wednesdays' || day.toLowerCase() == 'wednes') {
     return 'wed';
   }
-  if (day.toLowerCase() == 'thursday' || day.toLowerCase() == 'thurs') {
+  if (day.toLowerCase() == 'thursday' || day.toLowerCase() == 'thursdays' || day.toLowerCase() == 'thurs') {
     return 'thu';
   }
-  if (day.toLowerCase() == 'friday' || day.toLowerCase() == 'fri') {
+  if (day.toLowerCase() == 'friday' || day.toLowerCase() == 'fridays') {
     return 'fri';
   }
-  if (day.toLowerCase() == 'saturday' || day.toLowerCase() == 'satur') {
+  if (day.toLowerCase() == 'saturday' || day.toLowerCase() == 'saturdays' || day.toLowerCase() == 'satur') {
     return 'sat';
   }
-  if (day.toLowerCase() == 'sunday' || day.toLowerCase() == 'sun') {
+  if (day.toLowerCase() == 'sunday' || day.toLowerCase() == 'sundays') {
     return 'sun';
   }
   else return day;

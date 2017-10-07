@@ -43,8 +43,23 @@ module.exports = {
     return frameGenericFBTemplate(courses[0], subtitle, true, false, true, title);
   },
 
-  //make this in a list template
   course_lookup: function(courses) {
+    let courseList = [];
+    courses.forEach(function(course, index) {
+      courseList.push(defineFBButton(course.handbook_link, ''+course.code+' '+course.course_title+' ('+course.career+')'));
+    });
+
+    let elements = [
+      {
+        title:'I found these courses relevant to your search',
+        subtitle: ''
+      },
+      {
+        buttons: courseList
+      }
+    ];
+
+    return frameListFBTemplate(null, elements, false, false, false);
   },
 
   course_outline: function(courses) {
