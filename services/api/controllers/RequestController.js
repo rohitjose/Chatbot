@@ -51,8 +51,7 @@ module.exports = {
         "elements": [
           {
             "title": "Classic T-Shirt Collection",
-            "subtitle": "See all our colors",
-            "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",          
+            "subtitle": "See all our colors",          
             "buttons": [
               {
                 "title": "View",
@@ -68,7 +67,6 @@ module.exports = {
           },
           {
             "title": "Classic Blue T-Shirt",
-            "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
             "subtitle": "100% Cotton, 200% Comfortable",
             "default_action": {
               "type": "web_url",
