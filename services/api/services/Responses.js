@@ -163,6 +163,10 @@ module.exports = {
       buttons: main_button_array
     };
 
+    if (payload.elements.length < 1) {
+      payload.elements.push(payload.elements[0]);
+    }
+
     return frameListFBTemplateFromPayload(payload);
 
 
