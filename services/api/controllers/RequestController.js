@@ -50,8 +50,8 @@ module.exports = {
         "top_element_style": "compact",
         "elements": [
          {
-            "title": "Classic White T-Shirt",
-            "subtitle": "See all our colors"
+            "title": "Course Lookup",
+            "subtitle": "I found these courses relevant to your search!"
           },
           {
             "title": "Classic T-Shirt Collection",
