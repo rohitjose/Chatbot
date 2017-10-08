@@ -69,7 +69,7 @@ module.exports = {
       buttons: defineFBButton("http://www.handbook.unsw.edu.au/2018/index.html", "UNSW Handbook")
     };
 
-    return payload;
+    return frameListFBTemplateFromPayload(payload);
 
   },
 
@@ -397,6 +397,26 @@ function frameListFBTemplate(course, elements, link_handbook = true, link_outlin
             top_element_style: "compact",
             elements: elements
           }
+        }
+      }
+    }
+  };
+
+  return list_template;
+}
+
+// Generates a List template based on the payload
+function frameListFBTemplateFromPayload(payload) {
+
+  let list_template = {
+    speech: "Description",
+    source: "chappie_middleware",
+    displayText: "Course Details",
+    data: {
+      facebook: {
+        attachment: {
+          type: "template",
+          payload: payload
         }
       }
     }
