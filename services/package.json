@@ -19,12 +19,15 @@
     "grunt-sails-linker": "~0.10.1",
     "grunt-sync": "0.5.2",
     "include-all": "^1.0.0",
+    "moment": "^2.18.1",
+    "moment-range": "^3.0.3",
+    "mongodb": "^2.2.31",
     "rc": "1.0.1",
+    "request": "^2.83.0",
     "sails": "~0.12.13",
     "sails-disk": "~0.10.9",
-    "sails-mysql": "^0.11.5",
     "sails-mongo": "^0.12.2",
-    "mongodb": "^2.2.31"
+    "sails-mysql": "^0.11.5"
   },
   "scripts": {
     "debug": "node debug app.js",
