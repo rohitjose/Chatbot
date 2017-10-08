@@ -46,42 +46,35 @@ module.exports = {
       "attachment": {
         "type": "template",
         "payload": {
-        "template_type": "list",
-        "top_element_style": "compact",
-        "elements": [
-          {
-            "title": "COMP9417 Machine Learning and Data Mining",
-            "subtitle": "Machine learning is the algorithmic approach to learning from data. This course ",          
-            "buttons": [
-              {
+          "template_type": "list",
+          "top_element_style": "compact",
+          "elements": [{
+              "title": "COMP9417 Machine Learning and Data Mining",
+              "subtitle": "Machine learning is the algorithmic approach to learning from data. This course ",
+              "buttons": [{
                 "type": "web_url",
                 "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9417.html",
                 "title": "More Info",
-                "webview_height_ratio": "tall"       
-              }
-            ]
-          },
-          {
-            "title": "COMP9418 Advanced Topics in Statistical Machine Learning ",
-            "subtitle": "This course provides an in-depth study of statistical machine learning approache",
-            "buttons": [
-              {
+                "webview_height_ratio": "tall"
+              }]
+            },
+            {
+              "title": "COMP9418 Advanced Topics in Statistical Machine Learning ",
+              "subtitle": "This course provides an in-depth study of statistical machine learning approache",
+              "buttons": [{
                 "type": "web_url",
                 "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9418.html",
                 "title": "More Info",
-                "webview_height_ratio": "tall"          
-              }
-            ]        
-          },
-        ],
-         "buttons": [
-          {
+                "webview_height_ratio": "tall"
+              }]
+            }
+          ],
+          "buttons": [{
             "title": "View More",
             "type": "postback",
-            "payload": "payload"            
-          }
-        ]  
-      }
+            "payload": "payload"
+          }]
+        }
       }
     }
   }
