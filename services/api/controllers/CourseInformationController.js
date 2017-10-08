@@ -70,9 +70,11 @@ module.exports = {
   //   ---------- CLASS DETAILS ----------
   //--------------------------------------
   classdetail_day_info: function (req, res) {
+    let params = req.param('parameters');
+    params = JSON.parse(params);
     execute(req, res, function (err, courses) {
       if (!err && courses) {
-        return res.ok(Responses.classdetail_day_info(courses));
+        return res.ok(Responses.classdetail_day_info(courses, params));
       }
     });
   },
@@ -131,7 +133,7 @@ function execute(req, res, cb) {
   console.log('fetching data ...')
 
   DBService.getCourses(params, function(err, data){
-    if (err) {
+    if (err || !data || data.length == 0) {
       res.badRequest(Responses.err_response());
       return cb(err, null);
     }
