@@ -52,7 +52,7 @@ module.exports = {
 
     for (let course of courses) {
       if (count < 3) {
-        let handbook_link_button = defineFBButton(course.handbook_link, "More Info");
+        let handbook_link_button = defineFBButton(course.handbook_link, "More Info", true);
         let element = defineFBElement(`${course.code} ${course.course_title}`, course.description.substring(0, 80), null, handbook_link_button);
         courseList.push(element);
         count++;
@@ -444,12 +444,16 @@ function defineFBElement(title, subtitle, image_url = null, buttons = null) {
   return element;
 }
 
-function defineFBButton(url, title) {
+function defineFBButton(url, title, webview_height_ratio = false) {
   let button = {
     type: "web_url",
     url: url,
     title: title
   };
+
+  if (webview_height_ratio) {
+    button.webview_height_ratio = "tall";
+  }
 
   return button;
 }
