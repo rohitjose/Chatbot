@@ -104,19 +104,78 @@ module.exports = {
   //  ---------- CLASS DETAILS RESPONSES ----------
   //---------------------------------------------------
   classdetail_day_info: function(courses, params) {
-    let courseList = [];
-    courses.forEach(function(course, index) {
-      courseList.push(defineFBButton(course.handbook_link, '' + course.code + ' ' + course.course_title + ' (' + course.career + ')'));
-    });
 
-    let elements = [{
-      title: 'Here are some courses offered on this day',
-      subtitle: ''
-    }, {
-      buttons: courseList
-    }];
+    let query_day = params.day; // request day parameter
+    let course_code_list = [];
+    let courseList = []; // Element list for the courses
+    let count = 0;
 
-    return frameListFBTemplate(null, elements, false, false, false);
+    for (let course of courses) {
+
+      // Check for redundant course
+      if (course_code_list.indexOf(course.code) == -1) {
+        course_code_list.push(course.code);
+
+        // Generate title
+        let title = `${course.code} ${course.course_title}`;
+
+
+        // Generate button
+        let timetable_link = defineFBButton(course.class_timetable_link, "More Info", true);
+        let button_array = [];
+        button_array.push(timetable_link);
+
+        // Check in class details
+        for (let detail of course.class_detail) {
+          if (count < 4) {
+            if (query_day == detail.day) {
+              let section = detail.section;
+
+              if (section.indexOf("UGA") > -1) {
+                section = "Undergraduate";
+              }
+
+              if (section.indexOf("PGA") > -1) {
+                section = "Postgraduate";
+              }
+
+              if (section) {
+                let trim_length = title.length - (section.length + 2)
+                title = `${title.substring(0,trim_length)} (${section})`;
+              }
+              let class_details = `${detail.activity}(${detail.section})   -   ${detail.day}|${detail.time}`;
+
+              //Build element
+              let element = defineFBElement(title.substring(0, 80), class_details.substring(0, 80), null, button_array);
+              courseList.push(element);
+              count++;
+            }
+          } else {
+            break;
+          }
+        }
+      }
+
+    }
+
+    // Build payload
+    let main_button_array = [];
+
+    main_button_array.push(defineFBButton("http://www.handbook.unsw.edu.au/2018/index.html", "UNSW Handbook"));
+    let payload = {
+      template_type: "list",
+      top_element_style: "compact",
+      elements: courseList,
+      buttons: main_button_array
+    };
+
+    if (payload.elements.length <= 1) {
+      payload.elements.push(payload.elements[0]);
+    }
+
+    return frameListFBTemplateFromPayload(payload);
+
+
   },
 
   classdetail_instructor: function(courses) {
