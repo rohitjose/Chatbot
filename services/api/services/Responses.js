@@ -111,27 +111,38 @@ module.exports = {
     let count = 0;
 
     for (let course of courses) {
-      if (count < 4) {
-        // Check for redundant course
-        if (course_code_list.indexOf(course.code) == -1) {
-          course_code_list.push(course.code);
 
-          // Generate title
-          let title = `${course.code} ${course.course_title}`;
-          if (course.career) {
-            let trim_length = title.length - (course.career.length + 2)
-            title = `${title.substring(0,trim_length)} (${course.career})`;
-          }
+      // Check for redundant course
+      if (course_code_list.indexOf(course.code) == -1) {
+        course_code_list.push(course.code);
 
-          // Generate button
-          let timetable_link = defineFBButton(course.class_timetable_link, "More Info", true);
-          let button_array = [];
-          button_array.push(timetable_link);
+        // Generate title
+        let title = `${course.code} ${course.course_title}`;
 
-          // Check in class details
-          for (let detail of course.class_detail) {
 
+        // Generate button
+        let timetable_link = defineFBButton(course.class_timetable_link, "More Info", true);
+        let button_array = [];
+        button_array.push(timetable_link);
+
+        // Check in class details
+        for (let detail of course.class_detail) {
+          if (count < 4) {
             if (query_day == detail.day) {
+              let section = detail.section;
+
+              if (section.indexOf("UGA") > -1) {
+                section = "Undergraduate";
+              }
+
+              if (section.indexOf("PGA") > -1) {
+                section = "Postgraduate";
+              }
+
+              if (section) {
+                let trim_length = title.length - (section.length + 2)
+                title = `${title.substring(0,trim_length)} (${section})`;
+              }
               let class_details = `${detail.activity}(${detail.section})   -   ${detail.day}|${detail.time}`;
 
               //Build element
@@ -139,11 +150,12 @@ module.exports = {
               courseList.push(element);
               count++;
             }
+          } else {
+            break;
           }
         }
-      } else {
-        break;
       }
+
     }
 
     // Build payload
