@@ -54,14 +54,14 @@ module.exports = {
             "subtitle": "I found these courses relevant to your search!"
           },
           {
-            "title": "Classic T-Shirt Collection",
-            "subtitle": "See all our colors",          
+            "title": "COMP9417 Machine Learning and Data Mining",
+            "subtitle": "Machine learning is the algorithmic approach to learning from data. This course ",          
             "buttons": [
               {
-                "title": "View",
                 "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/collection",
-                "webview_height_ratio": "tall"           
+                "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9417.html",
+                "title": "More Info",
+                "webview_height_ratio": "tall"       
               }
             ]
           },
