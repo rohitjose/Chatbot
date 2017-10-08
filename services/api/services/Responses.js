@@ -129,6 +129,9 @@ module.exports = {
 
           // Check in class details
           for (let detail in course.class_detail) {
+            console.log("================== CLASS DETAIL ======================");
+            console.log(detail);
+            console.log("================== CLASS DETAIL ======================");
             if (query_day == detail.day) {
               class_details = `${class_details}\n${detail.activity}(${detail.section})   -   ${detail.day}|${detail.time}`;
             } else {
