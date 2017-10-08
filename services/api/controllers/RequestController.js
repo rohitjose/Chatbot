@@ -65,11 +65,6 @@ module.exports = {
           {
             "title": "Classic White T-Shirt",
             "subtitle": "See all our colors",
-            "default_action": {
-              "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-              "webview_height_ratio": "tall"
-            }
           },
           {
             "title": "Classic Blue T-Shirt",
