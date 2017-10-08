@@ -47,13 +47,21 @@ module.exports = {
     let courseList = [];
     let count = 0; // Counter to map 3 courses matches
 
-    // Push the header element
-    courseList.push(defineFBElement("Course Lookup", "I found these courses relevant to your search!"));
 
     for (let course of courses) {
-      if (count < 3) {
+      if (count < 4) {
+
+        // Generate button
         let handbook_link_button = defineFBButton(course.handbook_link, "More Info", true);
-        let element = defineFBElement(`${course.code} ${course.course_title}`, course.description.substring(0, 80), null, handbook_link_button);
+        let button_array = [];
+        button_array.push(handbook_link_button);
+
+        // Generate title
+        let title = `${course.code} ${course.course_title}`;
+        if(course.career)
+          title = `${title.substring(0,course.career.length + 2)} (${course.career})`;
+
+        let element = defineFBElement(title, course.description.substring(0, 80), null, button_array);
         courseList.push(element);
         count++;
       } else {
@@ -62,11 +70,14 @@ module.exports = {
     }
 
     // Build payload
+    let main_button_array = [];
+
+    main_button_array.push(defineFBButton("http://www.handbook.unsw.edu.au/2018/index.html", "UNSW Handbook"));
     let payload = {
       template_type: "list",
       top_element_style: "compact",
       elements: courseList,
-      buttons: defineFBButton("http://www.handbook.unsw.edu.au/2018/index.html", "UNSW Handbook")
+      buttons: main_button_array
     };
 
     return frameListFBTemplateFromPayload(payload);
