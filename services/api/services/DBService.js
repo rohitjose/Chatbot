@@ -1,36 +1,51 @@
 module.exports = {
 
-  getCourses: function (params, cb) {
+  getCourses: function(params, cb) {
     params = JSON.parse(params);
     if (!params || !params.course_code) {
-      return cb ('invalid arguments', null);
+      return cb('invalid arguments', null);
     }
+
+    params = trimParams(params);
+
     if (params.course_code instanceof Array && params.course_code.length > 1) {
       getClashes(params, cb);
-    }
-    else {
+    } else {
       normalFetch(params, cb);
     }
   }
 }
 
+function trimParams(params) {
+
+  for (let key in params) {
+    if (params[key] instanceof Array) {
+      params[key].map(s => s.trim());
+    } else {
+      params[key] = params[key].trim();
+    }
+  }
+
+  return params;
+
+}
+
 function normalFetch(params, cb) {
   let query = generateQuery(params);
 
-  Courses.find().where(query).exec(function (err, collection) {
+  Courses.find().where(query).exec(function(err, collection) {
     if (err) {
       return cb(err, null);
     }
     if (!collection || collection.length < 1) {
       query = generateQuery(params, true);
-      Courses.find().where(query).exec(function (err, collection) {
+      Courses.find().where(query).exec(function(err, collection) {
         if (err) {
           return cb(err, null);
         }
         return cb(null, collection);
       });
-    }
-    else {
+    } else {
       return cb(null, collection);
     }
   });
@@ -41,32 +56,29 @@ function getClashes(params, cb) {
   let query = generateQuery(params, false);
   //query = {or:[{code:{'contains':'comp9321'}}, {code:{'contains':'COMP9318'}}], 'class_detail.day':'Mon'};
 
-  Courses.find().where(query).exec(function (err, collection) {
+  Courses.find().where(query).exec(function(err, collection) {
     if (err) {
       return cb(err, null);
-    }
-    else if (!collection || collection.length < 1) {
+    } else if (!collection || collection.length < 1) {
       query = generateQuery(params, true);
-      Courses.find().where(query).exec(function (err, coll) {
+      Courses.find().where(query).exec(function(err, coll) {
         if (err) {
           return cb(err, null);
         }
         return cb(null, coll);
       });
-    }
-    else if (collection.length < 2 || collection[0].code == collection[1].code) {
+    } else if (collection.length < 2 || collection[0].code == collection[1].code) {
       params.course_code.splice(params.course_code.indexOf(collection[0].code), 1);
       query = generateQuery(params, true);
       let result = [].concat(collection);
-      Courses.find().where(query).exec(function (err, coll) {
+      Courses.find().where(query).exec(function(err, coll) {
         if (err) {
           return cb(err, null);
         }
         result = result.concat(coll);
         return cb(null, result);
       });
-    }
-    else {
+    } else {
       return cb(null, collection);
     }
   });
@@ -105,43 +117,38 @@ function generateQuery(params, secondIter) {
   let qry = '{';
   let key2;
 
-  Object.keys(params).forEach(function (key, index) {
+  Object.keys(params).forEach(function(key, index) {
 
     if (key == 'course_code') {
       if (secondIter) {
         key2 = 'course_title';
-      }
-      else {
+      } else {
         key2 = 'code';
       }
-    }
-    else if (key == 'day' || key == 'time' || key == 'activity' || key == 'teaching_period') {
-      key2 = 'class_detail.'+key;
-    }
-    else {
+    } else if (key == 'day' || key == 'time' || key == 'activity' || key == 'teaching_period') {
+      key2 = 'class_detail.' + key;
+    } else {
       key2 = key;
     }
 
-    if(params[key] instanceof Array) {
+    if (params[key] instanceof Array) {
       if (qry.length > 1) qry += ', ';
 
       if (params[key].length > 1) {
         qry += '"or":['
-        params[key].forEach(function (param, idx) {
-          qry += '{"'+key2+'":{"contains":"'+param+'"}},';
+        params[key].forEach(function(param, idx) {
+          qry += '{"' + key2 + '":{"contains":"' + param + '"}},';
         });
-        qry = qry.substring(0, qry.length-1);
+        qry = qry.substring(0, qry.length - 1);
         qry += ']';
-      }
-      else {
-        params[key].forEach(function (param, idx) {
-          qry += '"'+key2+'":{"contains":"'+param+'"}';
+      } else {
+        params[key].forEach(function(param, idx) {
+          qry += '"' + key2 + '":{"contains":"' + param + '"}';
         });
       }
-    }
-    else {
+    } else {
       if (qry.length > 1) qry += ', '
-      qry += '"'+key2+'"'+':{'+'"contains"'+':'+'"'+days(params[key])+'"'+'}';
+      qry += '"' + key2 + '"' + ':{' + '"contains"' + ':' + '"' + days(params[key]) + '"' + '}';
     }
   });
   qry += '}';
@@ -169,6 +176,5 @@ function days(day) {
   }
   if (day.toLowerCase() == 'sunday' || day.toLowerCase() == 'sundays') {
     return 'sun';
-  }
-  else return day;
+  } else return day;
 }
