@@ -49,7 +49,7 @@ module.exports = {
           "template_type": "list",
           "top_element_style": "compact",
           "elements": [{
-              "title": "COMP9417 Machine Learning and Data Mining",
+              "title": "COMP9417 Machine Learning and Data Mining (postgraduate)",
               "subtitle": "Machine learning is the algorithmic approach to learning from data. This course ",
               "buttons": [{
                 "type": "web_url",
@@ -59,7 +59,7 @@ module.exports = {
               }]
             },
             {
-              "title": "COMP9418 Advanced Topics in Statistical Machine Learning ",
+              "title": "COMP9418 Advanced Topics in Statistical Machine Learning (postgraduate)",
               "subtitle": "This course provides an in-depth study of statistical machine learning approache",
               "buttons": [{
                 "type": "web_url",
@@ -69,7 +69,7 @@ module.exports = {
               }]
             },
              {
-              "title": "COMP9417 Machine Learning and Data Mining",
+              "title": "COMP9417 Machine Learning and Data Mining(undergraduate)",
               "subtitle": "Machine learning is the algorithmic approach to learning from data. This course ",
               "buttons": {
                 "type": "web_url",
