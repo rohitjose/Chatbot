@@ -73,16 +73,6 @@ module.exports = {
               }
             ]        
           },
-           {
-              "title": "COMP9417 Machine Learning and Data Mining",
-              "subtitle": "Machine learning is the algorithmic approach to learning from data. This course ",
-              "buttons": {
-                "type": "web_url",
-                "url": "http://www.handbook.unsw.edu.au/undergraduate/courses/2017/COMP9417.html",
-                "title": "More Info",
-                "webview_height_ratio": "tall"
-              }
-            }
         ],
          "buttons": [
           {
