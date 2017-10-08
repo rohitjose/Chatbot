@@ -46,56 +46,56 @@ module.exports = {
       "attachment": {
         "type": "template",
         "payload": {
-          "template_type": "list",
-          "top_element_style": "compact",
-          "elements": [
-            {
-              "title": "Course Lookup",
-              "subtitle": "I found these courses relevant to your search!"
-            },
-            {
-              "title": "COMP9417 Machine Learning and Data Mining",
-              "subtitle": "Machine learning is the ",
-              "buttons": {
+        "template_type": "list",
+        "top_element_style": "compact",
+        "elements": [
+         {
+            "title": "Classic White T-Shirt",
+            "subtitle": "See all our colors"
+          },
+          {
+            "title": "Classic T-Shirt Collection",
+            "subtitle": "See all our colors",          
+            "buttons": [
+              {
+                "title": "View",
                 "type": "web_url",
-                "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9417.html",
-                "title": "More Info",
-                "webview_height_ratio": "tall"
+                "url": "https://peterssendreceiveapp.ngrok.io/collection",
+                "webview_height_ratio": "tall"           
               }
+            ]
+          },
+          {
+            "title": "Classic Blue T-Shirt",
+            "subtitle": "100% Cotton, 200% Comfortable",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
+              "webview_height_ratio": "tall"
             },
-            {
-              "title": "COMP9418 Advanced Topics in Statistical Machine Learning ",
-              "subtitle": "This course provides an in-depth study",
-              "buttons": {
+            "buttons": [
+              {
+                "title": "Shop Now",
                 "type": "web_url",
-                "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9418.html",
-                "title": "More Info",
-                "webview_height_ratio": "tall"
+                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
+                "webview_height_ratio": "tall"           
               }
-            },
-            {
-              "title": "COMP9417 Machine Learning and Data Mining",
-              "subtitle": "Machine learning is the algorithmic",
-              "buttons": {
-                "type": "web_url",
-                "url": "http://www.handbook.unsw.edu.au/undergraduate/courses/2017/COMP9417.html",
-                "title": "More Info",
-                "webview_height_ratio": "tall"
-              }
-            }
-          ],
-          "buttons": {
-            "type": "web_url",
-            "url": "http://www.handbook.unsw.edu.au/2018/index.html",
-            "title": "UNSW Handbook"
+            ]        
           }
-        }
+        ],
+         "buttons": [
+          {
+            "title": "View More",
+            "type": "postback",
+            "payload": "payload"            
+          }
+        ]  
+      }
       }
     }
   }
-}
-`;
+}`;
 
-        return res.ok(JSON.parse(response));
+    return res.ok(JSON.parse(response));
   }
 }
