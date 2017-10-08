@@ -64,7 +64,7 @@ module.exports = {
     // Build payload
     let payload = {
       template_type: "list",
-      top_element_style: "large",
+      top_element_style: "compact",
       elements: courseList,
       buttons: defineFBButton("http://www.handbook.unsw.edu.au/2018/index.html", "UNSW Handbook")
     };
