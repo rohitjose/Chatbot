@@ -55,7 +55,7 @@ module.exports = {
             },
             {
               "title": "COMP9417 Machine Learning and Data Mining",
-              "subtitle": "Machine learning is the algorithmic approach to learning from data. This course ",
+              "subtitle": "Machine learning is the ",
               "buttons": {
                 "type": "web_url",
                 "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9417.html",
@@ -65,7 +65,7 @@ module.exports = {
             },
             {
               "title": "COMP9418 Advanced Topics in Statistical Machine Learning ",
-              "subtitle": "This course provides an in-depth study of statistical machine learning approache",
+              "subtitle": "This course provides an in-depth study",
               "buttons": {
                 "type": "web_url",
                 "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9418.html",
@@ -75,7 +75,7 @@ module.exports = {
             },
             {
               "title": "COMP9417 Machine Learning and Data Mining",
-              "subtitle": "Machine learning is the algorithmic approach to learning from data. This course ",
+              "subtitle": "Machine learning is the algorithmic",
               "buttons": {
                 "type": "web_url",
                 "url": "http://www.handbook.unsw.edu.au/undergraduate/courses/2017/COMP9417.html",
