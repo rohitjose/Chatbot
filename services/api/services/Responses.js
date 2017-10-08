@@ -58,8 +58,8 @@ module.exports = {
 
         // Generate title
         let title = `${course.code} ${course.course_title}`;
-        if(course.career)
-          title = `${title.substring(0,course.career.length + 2)} (${course.career})`;
+        if (course.career)
+          title = `${title.substring(0,15)} (${course.career})`;
 
         let element = defineFBElement(title, course.description.substring(0, 80), null, button_array);
         courseList.push(element);
