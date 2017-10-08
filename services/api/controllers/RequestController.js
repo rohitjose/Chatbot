@@ -64,7 +64,7 @@ module.exports = {
           },
           {
             "title": "Classic White T-Shirt",
-            "subtitle": "See all our colors",
+            "subtitle": "See all our colors"
           },
           {
             "title": "Classic Blue T-Shirt",
