@@ -28,38 +28,28 @@ module.exports = {
   course_enrollment_capacity: function(courses) {
     let subtitle = '';
 
-    //courses.forEach(function(course, index) {
-    //  responseString += '\nEnrolment capacity for ' + course.code + ':\n';
-      courses[0].class_detail.forEach(function(classDetail, index) {
-        subtitle += 'Class# ' + classDetail.class_nbr + '\n';
-        subtitle += 'Section ' + classDetail.section + '\n';
-        subtitle += 'Capacity ' + classDetail.capacity + '\n';
-        subtitle += 'Offering period ' + classDetail.offering_period + '\n\n';
-      });
-    //});
+    courses[0].class_detail.forEach(function(classDetail, index) {
+      subtitle += 'Class# ' + classDetail.class_nbr + '\n';
+      subtitle += 'Section ' + classDetail.section + '\n';
+      subtitle += 'Capacity ' + classDetail.capacity + '\n';
+      subtitle += 'Offering period ' + classDetail.offering_period + '\n\n';
+    });
 
     let title = 'Enrolment capacity for ' + courses[0].code + courses[0].course_title;
-
     return frameGenericFBTemplate(courses[0], subtitle, true, false, true, title);
   },
 
   course_lookup: function(courses) {
-    let courseList = [];
+    if (courses.length == 0) {
+      return frameGenericFBTemplate(null, 'I could not fine any relevant courses for your lookup', false, false, false);
+    }
+    let response = frameGenericFBTemplate(null, 'Here are a few courses relevant to what you are looking for ', false, false, false);
+
     courses.forEach(function(course, index) {
-      courseList.push(defineFBButton(course.handbook_link, ''+course.code+' '+course.course_title+' ('+course.career+')'));
+      let btn = defineFBButton(course.handbook_link, ''+course.code+' '+course.course_title+' ('+course.career+')');
+      response.data.facebook.attachment.payload.elements[0].buttons.push(btn);
     });
-
-    let elements = [
-      {
-        title:'I found these courses relevant to your search',
-        subtitle: ''
-      },
-      {
-        buttons: courseList
-      }
-    ];
-
-    return frameListFBTemplate(null, elements, false, false, false);
+    return response;
   },
 
   course_outline: function(courses) {
@@ -80,12 +70,19 @@ module.exports = {
   //  ---------- CLASS DETAILS RESPONSES ----------
   //---------------------------------------------------
   classdetail_day_info: function(courses) {
-    let courseList = [];
-    courses.forEach(function(course, index) {
-      courseList.push(defineFBButton(course.handbook_link, ''+course.code+' '+course.course_title+' ('+course.career+')'));
-    });
+    //let courseList = [];
+    if (courses.length == 0) {
+      return frameGenericFBTemplate(null, 'There are no such courses being offered this day', false, false, false);
+    }
+    let response = frameGenericFBTemplate(null, 'Here are some courses being offered on this day', false, false, false);
 
-    let elements = [
+    courses.forEach(function(course, index) {
+      let btn = defineFBButton(course.handbook_link, ''+course.code+' '+course.course_title+' ('+course.career+')');
+      response.data.facebook.attachment.payload.elements[0].buttons.push(btn);
+    });
+    return response;
+
+    /*let elements = [
       {
         title:'Here are some courses offered on this day',
         subtitle: ''
@@ -93,9 +90,9 @@ module.exports = {
       {
         buttons: courseList
       }
-    ];
+    ];*/
 
-    return frameListFBTemplate(null, elements, false, false, false);
+    //return frameListFBTemplate(null, elements, false, false, false);
   },
 
   classdetail_instructor: function(courses) {
@@ -140,14 +137,12 @@ module.exports = {
   },
 
   classdetail_timetable: function(courses) {
-    let subtitle = 'You can find the timetable here: ';
+    let subtitle = 'You can find the timetable here for '+courses[0].code+' here';
     return frameGenericFBTemplate(courses[0], subtitle, false, false, true);
   },
 
   classdetail_clash: function (courses) {
     let clashes = [];
-    let buttons = [];
-    let elements = [];
     let clash = false;
 
     for (i=0;i<courses.length;i++) {
@@ -196,24 +191,33 @@ module.exports = {
         }
       }
     }
+    let response = {};
     if (!clashes || clashes.length < 1) {
-      subtitle = 'I did not find any clash between their lectures. You should be able to enroll in these courses.';
-      elements.push({subtitle: subtitle});
+      subtitle = 'I did not find any clash between their lectures. You can enroll in these courses here';
+
+      response = frameButtonFBTemplate(null, subtitle, false, false, false);
+      response.data.facebook.attachment.payload.buttons.push(defineFBButton('https://my.unsw.edu.au/', 'Enroll'));
+
+      //return frameGenericFBTemplate(null, subtitle, false, false, false, null, true);
     }
     else {
-      clashes.forEach(function (clash, index) {
-        let title = 'Clash in '+clash.c1.code+' and '+clash.c2.code;
-        let subtitle = clash.c1.code+' has classes on '+clash.c1.day+' from '+clash.c1.time+' and ';
-        subtitle += clash.c2.code+' has classes on '+clash.c2.day+' from '+clash.c2.time;
 
-        elements.push({title: title, subtitle: subtitle});
-        buttons.push(defineFBButton(clash.c1.course.class_timetable_link, ''+clash.c1.code+' Timetable'));
-        buttons.push(defineFBButton(clash.c2.course.class_timetable_link, ''+clash.c2.code+' Timetable'));
-      });
-      elements.push({buttons: buttons});
+      let title = 'There is a clash in '+clashes[0].c1.code+' and '+clashes[0].c2.code+'\n';
+      let subtitle = clashes[0].c1.code+' has classes on '+clashes[0].c1.day+' from '+clashes[0].c1.time+' and ';
+      subtitle += clashes[0].c2.code+' has classes on '+clashes[0].c2.day+' from '+clashes[0].c2.time;
+
+      //elements.push({title: title, subtitle: subtitle});
+      let b1 = defineFBButton(clash.c1.course.class_timetable_link, ''+clash.c1.code+' Timetable');
+      let b2 = defineFBButton(clash.c2.course.class_timetable_link, ''+clash.c2.code+' Timetable');
+
+      //elements.push({buttons: buttons});
+      response = frameButtonFBTemplate(null, title+subtitle, false, false, false);
+      response.data.facebook.attachment.payload.buttons.push(b1);
+      response.data.facebook.attachment.payload.buttons.push(b2);
+
+      //return frameListFBTemplate(null, elements, false, false, false);
     }
-
-    return frameListFBTemplate(null, elements, false, false, false);
+    return response;
   },
 
   //---------------------------------------------------
@@ -256,9 +260,10 @@ function addUrlButtonToResponse(response) {
 }
 
 // Generates a generic FB template for a single course
-function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, link_outline = true, link_timetable = true, title) {
+function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, link_outline = true, link_timetable = true, title="") {
+
   subtitle = (subtitle == "") ? course.description : subtitle;
-  if (!title || title == "") title = course.code+' '+course.course_title;
+  //if (!title || title == "") title = course.code+' '+course.course_title;
 
   let generic_template = {
     speech: "Description",
@@ -281,7 +286,7 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
     }
   };
 
-  if (course.handbook_link && link_handbook) {
+  if (link_handbook && course.handbook_link) {
     generic_template.data.facebook.attachment.payload.elements[0].buttons.push({
       type: "web_url",
       url: course.handbook_link,
@@ -289,7 +294,7 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
     });
   }
 
-  if (course.course_outline_link && link_outline) {
+  if (link_outline && course.course_outline_link) {
     generic_template.data.facebook.attachment.payload.elements[0].buttons.push({
       type: "web_url",
       url: course.course_outline_link,
@@ -297,7 +302,7 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
     });
   }
 
-  if (course.class_timetable_link && link_timetable) {
+  if (link_timetable && course.class_timetable_link) {
     generic_template.data.facebook.attachment.payload.elements[0].buttons.push({
       type: "web_url",
       url: course.class_timetable_link,
