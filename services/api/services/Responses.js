@@ -104,6 +104,8 @@ module.exports = {
   //  ---------- CLASS DETAILS RESPONSES ----------
   //---------------------------------------------------
   classdetail_day_info: function(courses, params) {
+    console.log(params);
+    console.log(params.day);
     let courseList = [];
     courses.forEach(function(course, index) {
       courseList.push(defineFBButton(course.handbook_link, '' + course.code + ' ' + course.course_title + ' (' + course.career + ')'));
