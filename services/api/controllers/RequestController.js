@@ -66,19 +66,14 @@ module.exports = {
             ]
           },
           {
-            "title": "Classic Blue T-Shirt",
-            "subtitle": "100% Cotton, 200% Comfortable",
-            "default_action": {
-              "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
-              "webview_height_ratio": "tall"
-            },
+            "title": "COMP9418 Advanced Topics in Statistical Machine Learning ",
+            "subtitle": "This course provides an in-depth study of statistical machine learning approache",
             "buttons": [
               {
-                "title": "Shop Now",
                 "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
-                "webview_height_ratio": "tall"           
+                "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9418.html",
+                "title": "More Info",
+                "webview_height_ratio": "tall"          
               }
             ]        
           }
