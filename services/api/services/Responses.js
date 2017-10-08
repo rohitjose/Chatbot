@@ -118,34 +118,28 @@ module.exports = {
 
           // Generate title
           let title = `${course.code} ${course.course_title}`;
-
+          if (course.career) {
+            let trim_length = title.length - (course.career.length + 2)
+            title = `${title.substring(0,trim_length)} (${course.career})`;
+          }
 
           // Generate button
           let timetable_link = defineFBButton(course.class_timetable_link, "More Info", true);
           let button_array = [];
           button_array.push(timetable_link);
 
-          let class_details = "";
-
           // Check in class details
           for (let detail of course.class_detail) {
-            console.log("================== CLASS DETAIL ======================");
-            console.log(detail);
-            console.log("================== CLASS DETAIL ======================");
+
             if (query_day == detail.day) {
-              class_details = `${class_details}\n${detail.activity}(${detail.section})   -   ${detail.day}|${detail.time}`;
-            } else {
-              console.log("================== MAPPING ======================");
-              console.log(`query_day - ${query_day}`);
-              console.log(`detail.day - ${detail.day}`);
-              console.log("================== MAPPING ======================");
+              let class_details = `${detail.activity}(${detail.section})   -   ${detail.day}|${detail.time}`;
+
+              //Build element
+              let element = defineFBElement(title.substring(0, 80), class_details.substring(0, 80), null, button_array);
+              courseList.push(element);
+              count++;
             }
           }
-
-          //Build element
-          let element = defineFBElement(title.substring(0, 80), class_details.substring(0, 80), null, button_array);
-          courseList.push(element);
-          count++;
         }
       } else {
         break;
