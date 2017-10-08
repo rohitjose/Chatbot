@@ -53,8 +53,7 @@ module.exports = {
     for (let course of courses) {
       if (count < 3) {
         let handbook_link_button = defineFBButton(course.handbook_link, "More Info");
-        let element = defineFBElement(`${course.code} ${course.course_title}`,
-          course.description.substring(0, 80), , handbook_link_button);
+        let element = defineFBElement(`${course.code} ${course.course_title}`, course.description.substring(0, 80), null, handbook_link_button);
         courseList.push(element);
         count++;
       } else {
