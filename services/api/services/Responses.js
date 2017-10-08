@@ -128,7 +128,7 @@ module.exports = {
           let class_details = "";
 
           // Check in class details
-          for (let detail in course.class_detail) {
+          for (let detail of course.class_detail) {
             console.log("================== CLASS DETAIL ======================");
             console.log(detail);
             console.log("================== CLASS DETAIL ======================");
