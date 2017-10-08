@@ -49,10 +49,6 @@ module.exports = {
         "template_type": "list",
         "top_element_style": "compact",
         "elements": [
-         {
-            "title": "Course Lookup",
-            "subtitle": "I found these courses relevant to your search!"
-          },
           {
             "title": "COMP9417 Machine Learning and Data Mining",
             "subtitle": "Machine learning is the algorithmic approach to learning from data. This course ",          
