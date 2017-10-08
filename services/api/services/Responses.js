@@ -118,10 +118,7 @@ module.exports = {
 
           // Generate title
           let title = `${course.code} ${course.course_title}`;
-          if (course.career) {
-            let trim_length = title.length - (course.career.length + 2)
-            title = `${title.substring(0,trim_length)} (${course.career})`;
-          }
+
 
           // Generate button
           let timetable_link = defineFBButton(course.class_timetable_link, "More Info", true);
@@ -132,13 +129,18 @@ module.exports = {
 
           // Check in class details
           for (let detail in course.class_detail) {
-            if (query_day === detail.day) {
-              class_details = `${class_details}\n${detail.activity}   -   ${detail.day}|${detail.time}`;
+            if (query_day == detail.day) {
+              class_details = `${class_details}\n${detail.activity}(${detail.section})   -   ${detail.day}|${detail.time}`;
+            } else {
+              console.log("================== MAPPING ======================");
+              console.log(`query_day - ${query_day}`);
+              console.log(`detail.day - ${detail.day}`);
+              console.log("================== MAPPING ======================");
             }
           }
 
           //Build element
-          let element = defineFBElement(title, class_details.substring(0, 80), null, button_array);
+          let element = defineFBElement(title.substring(0, 80), class_details.substring(0, 80), null, button_array);
           courseList.push(element);
           count++;
         }
