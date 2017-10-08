@@ -115,7 +115,7 @@ function generateQuery(params, secondIter) {
         key2 = 'code';
       }
     }
-    else if (key == 'day' || key == 'time' || key == 'activity') {
+    else if (key == 'day' || key == 'time' || key == 'activity' || key == 'teaching_period') {
       key2 = 'class_detail.'+key;
     }
     else {

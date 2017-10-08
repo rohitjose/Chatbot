@@ -167,7 +167,6 @@ module.exports = {
 
   classdetail_clash: function(courses) {
     let clashes = [];
-    let buttons = [];
     let elements = [];
     let clash = false;
 
@@ -226,39 +225,34 @@ module.exports = {
       }
     }
     if (!clashes || clashes.length < 1) {
-      subtitle = 'I did not find any clash between their lectures. You should be able to enroll in these courses.';
-      elements.push({
-        subtitle: subtitle
-      });
+      let text = 'I did not find any clash between these courses. You should be able to enroll in them.';
+      return frameButtonFBTemplate(null, text, false, false, false, true);
+
     } else {
-      clashes.forEach(function(clash, index) {
-        let title = 'Clash in ' + clash.c1.code + ' and ' + clash.c2.code;
-        let subtitle = clash.c1.code + ' has classes on ' + clash.c1.day + ' from ' + clash.c1.time + ' and ';
-        subtitle += clash.c2.code + ' has classes on ' + clash.c2.day + ' from ' + clash.c2.time;
+      let buttons = [];
+      let text = '';
 
-        elements.push({
-          title: title,
-          subtitle: subtitle
-        });
-        buttons.push(defineFBButton(clash.c1.course.class_timetable_link, '' + clash.c1.code + ' Timetable'));
-        buttons.push(defineFBButton(clash.c2.course.class_timetable_link, '' + clash.c2.code + ' Timetable'));
-      });
-      elements.push({
-        buttons: buttons
-      });
+      //clashes.forEach(function(clash, index) {
+        text += 'Clash in ' + clashes[0].c1.code + ' and ' + clashes[0].c2.code+'\n';
+        text += clashes[0].c1.code + ' has classes on ' + clashes[0].c1.day + ' from ' + clashes[0].c1.time + ' and ';
+        text += clashes[0].c2.code + ' has classes on the same day from ' + clashes[0].c2.time;
+
+        buttons.push(defineFBButton(clashes[0].c1.course.class_timetable_link, '' + clashes[0].c1.code + ' Timetable'));
+        buttons.push(defineFBButton(clashes[0].c2.course.class_timetable_link, '' + clashes[0].c2.code + ' Timetable'));
+      //});
+
+      let response = frameButtonFBTemplate(null, text, false, false, false, true);
+      response.data.facebook.attachment.payload.buttons = buttons;
+      return response;
     }
-
-    return frameListFBTemplate(null, elements, false, false, false);
   },
 
   //---------------------------------------------------
   //  ---------- EXCEPTION RESPONSES ----------
   //---------------------------------------------------
   err_response: function() {
-    return {
-      status: 'error',
-      displayText: 'Sorry! We are having some technical issues right now.\n Try querying after some time'
-    }
+    let displayText = 'Sorry! I could not find anything for you.\n You can try asking me differently to help me understand better what you are looking for!';
+    return frameButtonFBTemplate(null, displayText, false, false, false, false);
   },
 
   not_found_response: function() {
@@ -343,7 +337,7 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
 }
 
 // Generates a button FB template for a single course
-function frameButtonFBTemplate(course, displayText = "", link_handbook = true, link_outline = true, link_timetable = true) {
+function frameButtonFBTemplate(course, displayText = "", link_handbook = true, link_outline = true, link_timetable = true, link_myunsw = false) {
   displayText = (displayText == "") ? course.description : displayText;
 
   // Trim displayText to  640 characters | FB requirement
@@ -367,7 +361,7 @@ function frameButtonFBTemplate(course, displayText = "", link_handbook = true, l
     }
   };
 
-  if (course.handbook_link && link_handbook) {
+  if (link_handbook && course.handbook_link) {
     button_template.data.facebook.attachment.payload.buttons.push({
       type: "web_url",
       url: course.handbook_link,
@@ -375,7 +369,7 @@ function frameButtonFBTemplate(course, displayText = "", link_handbook = true, l
     });
   }
 
-  if (course.course_outline_link && link_outline) {
+  if (link_outline && course.course_outline_link) {
     button_template.data.facebook.attachment.payload.buttons.push({
       type: "web_url",
       url: course.course_outline_link,
@@ -383,11 +377,19 @@ function frameButtonFBTemplate(course, displayText = "", link_handbook = true, l
     });
   }
 
-  if (course.school_link && link_timetable) {
+  if (link_timetable && course.school_link) {
     button_template.data.facebook.attachment.payload.buttons.push({
       type: "web_url",
       url: course.class_timetable_link,
       title: "Timetable"
+    });
+  }
+
+  if (link_myunsw) {
+    button_template.data.facebook.attachment.payload.buttons.push({
+      type: "web_url",
+      url: "https://my.unsw.edu.au",
+      title: "Manage Enrollment"
     });
   }
 
