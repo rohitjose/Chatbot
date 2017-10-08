@@ -77,6 +77,16 @@ module.exports = {
                 "title": "More Info",
                 "webview_height_ratio": "tall"
               }]
+            },
+            {
+              "title": "COMP9418 Advanced Topics in Statistical Machine Learning (postgraduate)",
+              "subtitle": "This course provides an in-depth study of statistical machine learning approache",
+              "buttons": [{
+                "type": "web_url",
+                "url": "http://www.handbook.unsw.edu.au/postgraduate/courses/2017/COMP9418.html",
+                "title": "More Info",
+                "webview_height_ratio": "tall"
+              }]
             }
           ],
           "buttons": [{
