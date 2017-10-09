@@ -134,7 +134,7 @@ module.exports = {
                 let trim_length = title.length - (section.length + 2)
                 title = `${title.substring(0,trim_length)} (${section})`;
               }
-              let class_details = `${detail.activity}(${detail.section})   -   ${detail.day}|${detail.time}`;
+              let class_details = `${detail.activity}(${detail.section})   -   ${detail.day} | ${detail.time}`;
 
               //Build element
               let element = defineFBElement(title.substring(0, 80), class_details.substring(0, 80), null, button_array);
@@ -211,8 +211,51 @@ module.exports = {
   },
 
   classdetail_timetable: function(courses) {
-    let subtitle = 'You can find the timetable here: ';
-    return frameGenericFBTemplate(courses[0], subtitle, false, false, true);
+    // let subtitle = 'You can find the timetable here: ';
+    // return frameGenericFBTemplate(courses[0], subtitle, false, false, true);
+    let course = courses[0];
+    let count = 0;
+
+    // Generate title
+    let title = `${course.code} ${course.course_title}`;
+
+    // Generate button
+    let timetable_link = defineFBButton(course.class_timetable_link, "More Info", true);
+    let button_array = [];
+    button_array.push(timetable_link);
+
+    for (let detail of course.class_detail) {
+      if (count < 10) {
+
+        let section = detail.section;
+
+        if (section.indexOf("UGA") > -1) {
+          section = "Undergraduate";
+        }
+
+        if (section.indexOf("PGA") > -1) {
+          section = "Postgraduate";
+        }
+
+        if (section) {
+          let trim_length = title.length - (section.length + 2)
+          title = `${title.substring(0,trim_length)} (${section})`;
+        }
+        let class_details = `${detail.activity}(${detail.section})   -   ${detail.day} | ${detail.time}`;
+
+        //Build element
+        let element = defineFBElement(title.substring(0, 80), class_details.substring(0, 80), null, button_array);
+        courseList.push(element);
+        count++;
+
+      } else {
+        break;
+      }
+    }
+
+    return frameGenericFBTemplateFromElements(courseList);
+
+
   },
 
   classdetail_clash: function(courses) {
