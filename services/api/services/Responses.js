@@ -302,7 +302,14 @@ module.exports = {
   //---------------------------------------------------
   err_response: function() {
     let displayText = 'Sorry! I could not find anything for you.\n You can try asking me differently to help me understand better what you are looking for!';
-    return frameButtonFBTemplate(null, displayText, false, false, false, false);
+    let responseTemplate = frameButtonFBTemplate(null, displayText, false, false, false, false);
+    responseTemplate.data.facebook.attachment.payload.buttons.push({
+      type: "web_url",
+      url: "http://www.handbook.unsw.edu.au/2018/index.html",
+      title: "UNSW Handbook"
+    });
+
+    return responseTemplate;
   },
 
   not_found_response: function() {
