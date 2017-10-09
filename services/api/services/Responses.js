@@ -536,9 +536,6 @@ function timeOverlap(t1, t2) {
 
 // Generates a generic FB template for a multiple elements
 function frameGenericFBTemplateFromElements(elements) {
-  subtitle = (subtitle == "") ? course.description : subtitle;
-  if (!title || title == "") title = course.code + ' ' + course.course_title;
-
   let generic_template = {
     speech: "Description",
     source: "chappie_middleware",
