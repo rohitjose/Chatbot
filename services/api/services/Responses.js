@@ -49,12 +49,13 @@ module.exports = {
 
 
     for (let course of courses) {
-      if (count < 4) {
+      if (count < 10) {
 
         // Generate button
-        let handbook_link_button = defineFBButton(course.handbook_link, "More Info", true);
+        let handbook_link_button = defineFBButton(course.handbook_link, "Handbook", true);
         let button_array = [];
         button_array.push(handbook_link_button);
+        button_array.push(defineFBButton(course.class_timetable_link, "Timetable", true));
 
         // Generate title
         let title = `${course.code} ${course.course_title}`;
@@ -117,7 +118,7 @@ module.exports = {
 
         // Check in class details
         for (let detail of course.class_detail) {
-          if (count < 10) {
+          if (count < 4) {
             if (query_day == detail.day) {
               let section = detail.section;
 
