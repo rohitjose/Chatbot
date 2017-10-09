@@ -200,7 +200,7 @@ module.exports = {
     let course = courses[0]
 
 
-    responseString += course.code + "Classes:";
+    responseString += course.code + " Classes:";
     course.class_detail.forEach(function(classDetail, index) {
       responseString += '\nClass# ' + classDetail.class_nbr + '\n';
       responseString += 'Section ' + classDetail.section + '\n';
