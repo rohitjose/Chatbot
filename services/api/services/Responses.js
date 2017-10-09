@@ -117,7 +117,7 @@ module.exports = {
 
         // Check in class details
         for (let detail of course.class_detail) {
-          if (count < 4) {
+          if (count < 10) {
             if (query_day == detail.day) {
               let section = detail.section;
 
