@@ -72,7 +72,7 @@ module.exports = {
     }
 
 
-    return frameGenericFBTemplateFromElements(elements);
+    return frameGenericFBTemplateFromElements(courseList);
 
   },
 
