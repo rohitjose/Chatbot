@@ -215,6 +215,7 @@ module.exports = {
     // return frameGenericFBTemplate(courses[0], subtitle, false, false, true);
     let course = courses[0];
     let count = 0;
+    let courseList = [];
 
     // Generate title
     let title = `${course.code} ${course.course_title}`;
