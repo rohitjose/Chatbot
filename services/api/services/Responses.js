@@ -197,17 +197,18 @@ module.exports = {
   classdetail_lecture_location: function(courses) {
 
     let responseString = '';
+    let course = courses[0]
 
-    courses.forEach(function(course, index) {
-      responseString += course.code + ' ' + course.career + ' ';
-      course.class_detail.forEach(function(classDetail, index) {
-        responseString += '\nClass# ' + classDetail.class_nbr + '\n';
-        responseString += 'Section ' + classDetail.section + '\n';
-        responseString += 'Lecture location: ' + classDetail.location + '\n';
-      });
+
+    responseString += course.code + "Classes:";
+    course.class_detail.forEach(function(classDetail, index) {
+      responseString += '\nClass# ' + classDetail.class_nbr + '\n';
+      responseString += 'Section ' + classDetail.section + '\n';
+      responseString += 'Location: ' + classDetail.location + '\n';
     });
 
-    return (frameButtonFBTemplate(courses[0], responseString, false, false, true));
+
+    return (frameButtonFBTemplate(course, responseString.substring(0, 640), false, false, true));
   },
 
   classdetail_timetable: function(courses) {
