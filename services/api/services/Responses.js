@@ -49,12 +49,13 @@ module.exports = {
 
 
     for (let course of courses) {
-      if (count < 4) {
+      if (count < 10) {
 
         // Generate button
-        let handbook_link_button = defineFBButton(course.handbook_link, "More Info", true);
+        let handbook_link_button = defineFBButton(course.handbook_link, "Handbook", true);
         let button_array = [];
         button_array.push(handbook_link_button);
+        button_array.push(defineFBButton(course.class_timetable_link, "Timetable", true));
 
         // Generate title
         let title = `${course.code} ${course.course_title}`;
@@ -71,18 +72,8 @@ module.exports = {
       }
     }
 
-    // Build payload
-    let main_button_array = [];
 
-    main_button_array.push(defineFBButton("http://www.handbook.unsw.edu.au/2018/index.html", "UNSW Handbook"));
-    let payload = {
-      template_type: "list",
-      top_element_style: "compact",
-      elements: courseList,
-      buttons: main_button_array
-    };
-
-    return frameListFBTemplateFromPayload(payload);
+    return frameGenericFBTemplateFromElements(courseList);
 
   },
 
@@ -292,12 +283,12 @@ module.exports = {
       let text = '';
 
       //clashes.forEach(function(clash, index) {
-        text += 'Clash in ' + clashes[0].c1.code + ' and ' + clashes[0].c2.code+'\n';
-        text += clashes[0].c1.code + ' has classes on ' + clashes[0].c1.day + ' from ' + clashes[0].c1.time + ' and ';
-        text += clashes[0].c2.code + ' has classes on the same day from ' + clashes[0].c2.time;
+      text += 'Clash in ' + clashes[0].c1.code + ' and ' + clashes[0].c2.code + '\n';
+      text += clashes[0].c1.code + ' has classes on ' + clashes[0].c1.day + ' from ' + clashes[0].c1.time + ' and ';
+      text += clashes[0].c2.code + ' has classes on the same day from ' + clashes[0].c2.time;
 
-        buttons.push(defineFBButton(clashes[0].c1.course.class_timetable_link, '' + clashes[0].c1.code + ' Timetable'));
-        buttons.push(defineFBButton(clashes[0].c2.course.class_timetable_link, '' + clashes[0].c2.code + ' Timetable'));
+      buttons.push(defineFBButton(clashes[0].c1.course.class_timetable_link, '' + clashes[0].c1.code + ' Timetable'));
+      buttons.push(defineFBButton(clashes[0].c2.course.class_timetable_link, '' + clashes[0].c2.code + ' Timetable'));
       //});
 
       let response = frameButtonFBTemplate(null, text, false, false, false, true);
@@ -541,4 +532,27 @@ function timeOverlap(t1, t2) {
 
   return range1.overlaps(range2);
 
+}
+
+
+// Generates a generic FB template for a multiple elements
+function frameGenericFBTemplateFromElements(elements) {
+  let generic_template = {
+    speech: "Description",
+    source: "chappie_middleware",
+    displayText: "Course Details",
+    data: {
+      facebook: {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "generic",
+            elements: elements
+          }
+        }
+      }
+    }
+  };
+
+  return generic_template;
 }
