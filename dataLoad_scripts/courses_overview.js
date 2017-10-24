@@ -2,6 +2,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 var async = require('async');
 
+// list of urls related to careers --> ref. to hnadbook
 var url_list = [{
 	url: 'http://www.handbook.unsw.edu.au/vbook2017/brCoursesByAtoZ.jsp?StudyLevel=Undergraduate&descr=All',
 	career: 'undergraduate'
