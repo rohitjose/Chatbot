@@ -91,7 +91,7 @@ var parse_url = function(details_page_link, object_id, connection_handle) {
 		} 
 	});
 }
-
+//mongodb connection
 MongoClient.connect(url, function(err, db) {
 	if (err) throw err;
 	connection_handle = db;
