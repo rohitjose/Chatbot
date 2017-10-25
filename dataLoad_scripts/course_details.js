@@ -9,6 +9,7 @@ var connection_handle = {};
 
 // Removed the ':' sign trims the values to
 // form the attribute name value
+//remove tags
 var clean_attribute = function(attribute) {
 	attribute = attribute.toLowerCase();
 	attribute = attribute.replace(/:/g, "");
@@ -90,7 +91,7 @@ var parse_url = function(details_page_link, object_id, connection_handle) {
 		} 
 	});
 }
-
+//mongodb connection
 MongoClient.connect(url, function(err, db) {
 	if (err) throw err;
 	connection_handle = db;

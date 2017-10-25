@@ -9,6 +9,7 @@ var connection_handle = {};
 
 // Removed the ':' sign trims the values to
 // form the attribute name value
+//adding another regular expression
 var clean_attribute = function(attribute) {
 	attribute = attribute.toLowerCase();
 	attribute = attribute.replace(/:/g, "");
