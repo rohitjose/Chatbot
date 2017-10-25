@@ -1,11 +1,15 @@
 module.exports = {
 
+  /*
+  * the only exposed method here to request data from mongodb
+  */
   getCourses: function(params, cb) {
     params = JSON.parse(params);
     if (!params || !params.course_code) {
       return cb('invalid arguments', null);
     }
 
+    //to remove any whitespaces before or after given parameters
     params = trimParams(params);
 
     if (params.course_code instanceof Array && params.course_code.length > 1) {
@@ -16,8 +20,10 @@ module.exports = {
   }
 }
 
+/*
+* remove white spaces  from params
+*/
 function trimParams(params) {
-
   for (let key in params) {
     if (params[key] instanceof Array) {
       params[key].map(s => s.trim());
@@ -27,9 +33,11 @@ function trimParams(params) {
   }
 
   return params;
-
 }
 
+/*
+* fetches the data for a single course based on the given parameters
+*/
 function normalFetch(params, cb) {
   let query = generateQuery(params);
 
@@ -51,10 +59,12 @@ function normalFetch(params, cb) {
   });
 }
 
+/*
+* fetches data for multiple courses if more than one parameter given for course_code,
+* can be used to detect clashes in timetable etc
+*/
 function getClashes(params, cb) {
-
   let query = generateQuery(params, false);
-  //query = {or:[{code:{'contains':'comp9321'}}, {code:{'contains':'COMP9318'}}], 'class_detail.day':'Mon'};
 
   Courses.find().where(query).exec(function(err, collection) {
     if (err) {
@@ -85,34 +95,9 @@ function getClashes(params, cb) {
 }
 
 /*
-function getCourseInfo(params, cb) {
-  //can insert check on course_code to strictly fetch based on the code
-  Courses.find().where({code:{'contains':params.course_code}}).exec(function (err, collection) {
-    console.log('searching on code with : '+params.course_code);
-    if (err) {
-      console.log(err.message);
-      return cb(err, null);
-    }
-    if (collection && collection.length > 0) {
-      return cb(null, collection);
-    }
-
-    //if no records returned on code search then try searching on the course_title
-    Courses.find().where({course_title:{'contains':params.course_code}}).exec(function (err, collection) {
-      console.log('searching on title with title : '+params.course_code);
-      if (err) {
-        console.log(err.message);
-        return cb(err, null);
-      }
-      if (collection && collection.length > 0) {
-        return cb(null, collection);
-      }
-      return cb(null, []);
-    });
-  });
-}
+* Iterates over all the parameters in the request and creates a query
+* dynamically based on those params to fetch relevant data from the database
 */
-
 function generateQuery(params, secondIter) {
   let qry = '{';
   let key2;
@@ -155,6 +140,11 @@ function generateQuery(params, secondIter) {
   return JSON.parse(qry);
 }
 
+/*
+* map the given day to a format in which its saved in the handbook,
+* this can be used to understand different formats in which a user
+* might input the day of week parameter
+*/
 function days(day) {
   if (day.toLowerCase() == 'monday' || day.toLowerCase() == 'mondays') {
     return 'mon';
@@ -176,5 +166,6 @@ function days(day) {
   }
   if (day.toLowerCase() == 'sunday' || day.toLowerCase() == 'sundays') {
     return 'sun';
-  } else return day;
+  }
+  else return day;
 }
