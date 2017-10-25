@@ -128,6 +128,9 @@ module.exports = {
   }
 }
 
+/*
+* calls function in DBService responsible for fetching the data from mongodb
+*/
 function execute(req, res, cb) {
   let params = req.param('parameters');
   console.log('fetching data ...')
@@ -138,7 +141,6 @@ function execute(req, res, cb) {
       return cb(err, null);
     }
     else {
-      console.log(data);
       if (data.length > 6) return cb(null, data.slice(0, 5));
       return cb(null, data);
     }
