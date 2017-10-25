@@ -6,7 +6,6 @@ module.exports = {
   //---------------------------------------------------
   //  ---------- COURSE INFORMATION RESPONSES ---------
   //---------------------------------------------------
-
   course_description: function(courses) {
     return frameButtonFBTemplate(courses[0]);
   },
@@ -28,16 +27,12 @@ module.exports = {
   course_enrollment_capacity: function(courses) {
     let subtitle = '';
 
-    //courses.forEach(function(course, index) {
-    //  responseString += '\nEnrolment capacity for ' + course.code + ':\n';
     courses[0].class_detail.forEach(function(classDetail, index) {
       subtitle += 'Class# ' + classDetail.class_nbr + '\n';
       subtitle += 'Section ' + classDetail.section + '\n';
       subtitle += 'Capacity ' + classDetail.capacity + '\n';
       subtitle += 'Offering period ' + classDetail.offering_period + '\n\n';
     });
-    //});
-
     let title = 'Enrolment capacity for ' + courses[0].code + courses[0].course_title;
 
     return frameGenericFBTemplate(courses[0], subtitle, true, false, true, title);
@@ -46,7 +41,6 @@ module.exports = {
   course_lookup: function(courses) {
     let courseList = [];
     let count = 0; // Counter to map 3 courses matches
-
 
     for (let course of courses) {
       if (count < 10) {
@@ -72,9 +66,7 @@ module.exports = {
       }
     }
 
-
     return frameGenericFBTemplateFromElements(courseList);
-
   },
 
   course_outline: function(courses) {
@@ -95,7 +87,6 @@ module.exports = {
   //  ---------- CLASS DETAILS RESPONSES ----------
   //---------------------------------------------------
   classdetail_day_info: function(courses, params) {
-
     let query_day = params.day; // request day parameter
     let course_code_list = [];
     let courseList = []; // Element list for the courses
@@ -148,7 +139,6 @@ module.exports = {
       }
 
     }
-
     // Build payload
     let main_button_array = [];
 
@@ -165,8 +155,6 @@ module.exports = {
     }
 
     return frameListFBTemplateFromPayload(payload);
-
-
   },
 
   classdetail_instructor: function(courses) {
@@ -195,10 +183,8 @@ module.exports = {
   },
 
   classdetail_lecture_location: function(courses) {
-
     let responseString = '';
     let course = courses[0]
-
 
     responseString += course.code + " Classes:";
     course.class_detail.forEach(function(classDetail, index) {
@@ -207,13 +193,10 @@ module.exports = {
       responseString += 'Location: ' + classDetail.location + '\n';
     });
 
-
     return (frameButtonFBTemplate(course, responseString.substring(0, 640), false, false, true));
   },
 
   classdetail_timetable: function(courses) {
-    // let subtitle = 'You can find the timetable here: ';
-    // return frameGenericFBTemplate(courses[0], subtitle, false, false, true);
     let course = courses[0];
     let count = 0;
     let courseList = [];
@@ -256,13 +239,11 @@ module.exports = {
     }
 
     return frameGenericFBTemplateFromElements(courseList);
-
-
   },
 
   classdetail_clash: function(courses) {
     let clashes = [];
-    let elements = [];
+    //let elements = [];
     let clash = false;
 
     for (i = 0; i < courses.length; i++) {
@@ -272,7 +253,6 @@ module.exports = {
         let course1 = courses[i];
 
         for (j = i + 1; j < courses.length; j++) {
-          //clash = false;
           let course2 = courses[j];
 
           //if the courses are the same (happens in case if program is offered for both post and undergrad)
@@ -323,18 +303,17 @@ module.exports = {
       let text = 'I did not find any clash between these courses. You should be able to enroll in them.';
       return frameButtonFBTemplate(null, text, false, false, false, true);
 
-    } else {
+    }
+    else {
       let buttons = [];
       let text = '';
 
-      //clashes.forEach(function(clash, index) {
       text += 'Clash in ' + clashes[0].c1.code + ' and ' + clashes[0].c2.code + '\n';
       text += clashes[0].c1.code + ' has classes on ' + clashes[0].c1.day + ' from ' + clashes[0].c1.time + ' and ';
       text += clashes[0].c2.code + ' has classes on the same day from ' + clashes[0].c2.time;
 
       buttons.push(defineFBButton(clashes[0].c1.course.class_timetable_link, '' + clashes[0].c1.code + ' Timetable'));
       buttons.push(defineFBButton(clashes[0].c2.course.class_timetable_link, '' + clashes[0].c2.code + ' Timetable'));
-      //});
 
       let response = frameButtonFBTemplate(null, text, false, false, false, true);
       response.data.facebook.attachment.payload.buttons = buttons;
@@ -343,7 +322,7 @@ module.exports = {
   },
 
   //---------------------------------------------------
-  //  ---------- EXCEPTION RESPONSES ----------
+  //  ---------- EXCEPTION RESPONSE ----------
   //---------------------------------------------------
   err_response: function() {
     let displayText = 'Sorry! I could not find anything for you.\n You can try asking me differently to help me understand better what you are looking for!';
@@ -356,13 +335,6 @@ module.exports = {
 
     return responseTemplate;
   },
-
-  not_found_response: function() {
-    return {
-      status: 'error',
-      displayText: 'No results found'
-    }
-  }
 }
 
 function addUrlButtonToResponse(response) {
@@ -386,7 +358,9 @@ function addUrlButtonToResponse(response) {
   return response;
 }
 
-// Generates a generic FB template for a single course
+/*
+* Generates a generic FB template for a single course
+*/
 function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, link_outline = true, link_timetable = true, title) {
   subtitle = (subtitle == "") ? course.description : subtitle;
   if (!title || title == "") title = course.code + ' ' + course.course_title;
@@ -438,7 +412,9 @@ function frameGenericFBTemplate(course, subtitle = "", link_handbook = true, lin
   return generic_template;
 }
 
-// Generates a button FB template for a single course
+/*
+* Generates a button FB template for a single course
+*/
 function frameButtonFBTemplate(course, displayText = "", link_handbook = true, link_outline = true, link_timetable = true, link_myunsw = false) {
   displayText = (displayText == "") ? course.description : displayText;
 
@@ -498,7 +474,9 @@ function frameButtonFBTemplate(course, displayText = "", link_handbook = true, l
   return button_template;
 }
 
-// Generates a List FB template input elements
+/*
+* Generates a List FB template input elements
+*/
 function frameListFBTemplate(course, elements, link_handbook = true, link_outline = true, link_school = true) {
 
   let list_template = {
@@ -522,7 +500,9 @@ function frameListFBTemplate(course, elements, link_handbook = true, link_outlin
   return list_template;
 }
 
-// Generates a List template based on the payload
+/*
+* Generates a List template based on the payload
+*/
 function frameListFBTemplateFromPayload(payload) {
 
   let list_template = {
@@ -542,8 +522,9 @@ function frameListFBTemplateFromPayload(payload) {
   return list_template;
 }
 
-
-// Returns an element of a list
+/*
+* Returns an element of a list
+*/
 function defineFBElement(title, subtitle, image_url = null, buttons = null) {
   let element = {
     title: title,
@@ -561,6 +542,9 @@ function defineFBElement(title, subtitle, image_url = null, buttons = null) {
   return element;
 }
 
+/*
+* Create a template for facebook button element
+*/
 function defineFBButton(url, title, webview_height_ratio = false) {
   let button = {
     type: "web_url",
@@ -575,19 +559,9 @@ function defineFBButton(url, title, webview_height_ratio = false) {
   return button;
 }
 
-function timeOverlap(t1, t2) {
-  let time1 = t1.split(' - ');
-  let time2 = t2.split(' - ');
-
-  var range1 = moment.range(moment(time1[0], 'hh:mm'), moment(time1[1], 'hh:mm'));
-  var range2 = moment.range(moment(time2[0], 'hh:mm'), moment(time2[1], 'hh:mm'));
-
-  return range1.overlaps(range2);
-
-}
-
-
-// Generates a generic FB template for a multiple elements
+/*
+* Generates a generic FB template for a multiple elements
+*/
 function frameGenericFBTemplateFromElements(elements) {
   let generic_template = {
     speech: "Description",
@@ -607,4 +581,17 @@ function frameGenericFBTemplateFromElements(elements) {
   };
 
   return generic_template;
+}
+
+/*
+* check if there is an overlap between two ranges
+*/
+function timeOverlap(t1, t2) {
+  let time1 = t1.split(' - ');
+  let time2 = t2.split(' - ');
+
+  var range1 = moment.range(moment(time1[0], 'hh:mm'), moment(time1[1], 'hh:mm'));
+  var range2 = moment.range(moment(time2[0], 'hh:mm'), moment(time2[1], 'hh:mm'));
+
+  return range1.overlaps(range2);
 }
