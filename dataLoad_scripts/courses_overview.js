@@ -1,5 +1,5 @@
 var request = require('request');
-var cheerio = require('cheerio');
+var cheerio = require('cheerio');// extraction library
 var async = require('async');
 
 // list of urls related to careers --> ref. to hnadbook
@@ -38,7 +38,7 @@ var parse_url = function(url, career, db_handle) {
                         courseList[courseCount].career = career; // add career
 						courseCount += 1;
 
-						//Insert into DB
+                        //Insert into mongoDB
 						db_handle.collection('courses').insertOne(courseList[courseCount - 1], function(err, res) {
 							if (err) throw err;
 							console.log("document inserted");
